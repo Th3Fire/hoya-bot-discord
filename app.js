@@ -25,7 +25,7 @@ client.on('ready', function (message) {
     console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
     client.user.setActivity(`ดูดกัญชา`);
     var channel = client.channels.get('300568765001891843');
-    //channel.sendMessage('@everyone บอทมาแล้วจ้าาาาาาา ' + greetMsg + ':pray::skin-tone-3: :pray::skin-tone-3: :pray::skin-tone-3:' )
+    channel.sendMessage('@everyone บอทมาแล้วจ้าาาาาาา ' + greetMsg + ':pray::skin-tone-3: :pray::skin-tone-3: :pray::skin-tone-3:')
     //channel.sendMessage('อย่ายุ่งกะกูกูงอล ชิชิชิ' )
     //channel.sendMessage('บอทไปก่อนน้าาาา บุ้ยบุย...' )
 });
@@ -58,14 +58,14 @@ client.on('message', function (message) {
     if (message.author.bot) return;
     console.log('message ', message.content);
 
-    
-    
+
+
     if (message.content == '!unmute') {
         if (search(message.author.id, arrMuteBot, true)) {
             console.log('removed : ', arrMuteBot.length);
-            message.reply('ควยยยยบังอาจ mute กู คิดถึงกูละซิ้');
+            message.reply('unmute เรียบร้อย คิดถึงเค้าละซิ้');
         } else {
-            return;
+            return console.log('mute success');
         }
 
     }
@@ -79,19 +79,13 @@ client.on('message', function (message) {
         console.log('add user id : ', message.author.id);
         console.log('arr ', arrMuteBot);
         message.reply('ชิชิชิ บังบาจ mute เค้าไปกะได้ *หากต้องการ unmute พิมพ์ !unmute');
-    } else if(message.content != '!mute' && message.content != '!unmute'){
-        
+    } else if (message.content != '!mute' && message.content != '!unmute') {
+
         simsimi.listen(message.content, function (err, msg) {
-            if (err) {
-                console.log(err);
-                if (err.result === 404) {
-                    let arrNotFound = ["พิมพ์ควยไรกูไม่เข้าใจ","...","หนูไม่เข้าใจที่คุณพูดค่ะ"];
-                    //message.reply(arrNotFound[Math.floor(Math.random() * arrNotFound.length)]);
-                }
-            }else {
-                console.log('simsimi say : ', msg)
-                message.reply(msg);
-            }
+            if(err) return console.error(err);
+            console.log('simsimi say : ', msg)
+            message.reply(msg);
+
 
         });
     }
