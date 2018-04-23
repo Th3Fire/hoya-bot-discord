@@ -79,7 +79,8 @@ client.on('message', function (message) {
         console.log('add user id : ', message.author.id);
         console.log('arr ', arrMuteBot);
         message.reply('ชิชิชิ บังบาจ mute เค้าไปกะได้ *หากต้องการ unmute พิมพ์ !unmute');
-    } else {
+    } else if(message.content != '!mute' && message.content != '!unmute'){
+        
         simsimi.listen(message.content, function (err, msg) {
             if (err) {
                 console.log(err);
