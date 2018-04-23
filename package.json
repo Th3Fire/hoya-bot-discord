@@ -23,6 +23,7 @@
   "homepage": "https://github.com/wuttinanDEV/simsimi-discord#readme",
   "dependencies": {
     "discord.js": "^11.3.2",
-    "simsimi": "^2.0.2"
+    "simsimi": "^2.0.2",
+    "unirest": "^0.5.1"
   }
 }
