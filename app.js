@@ -57,14 +57,24 @@ function search(key, array, remove) {
 
 client.on('message', function (message) {
     if (message.author.bot) return;
+    //private message to bot
+    if (message.channel.type === 'dm') {
+        if (message.content.indexOf('!msg') === 0) {
+            let msg = message.content.split(' ');
+            if (msg.length > 1) {
+                var channel = client.channels.get(channelChatbotId);
+                channel.sendMessage(msg[1]);
+            }
+        }
+        return;
+    }
     if (message.channel.id != channelChatbotId) return;
 
     if (message.content == '!unmute') {
         if (search(message.author.id, arrMuteBot, true)) {
-            console.log('removed : ', arrMuteBot.length);
             message.reply('unmute เรียบร้อย คิดถึงเค้าละซิ้');
         } else {
-            return console.log('mute success');
+            return console.log('user not found : ', message.author.id);
         }
 
     }
@@ -78,7 +88,7 @@ client.on('message', function (message) {
         message.reply('ชิชิชิ บังบาจ mute เค้าไปกะได้ *หากต้องการ unmute พิมพ์ !unmute');
     } else if (message.content != '!mute' && message.content != '!unmute') {
         simsimi.listen(message.content, function (err, msg) {
-            if(err) return console.error(err);
+            if (err) return console.error(err);
             console.log('simsimi say : ', msg)
             message.reply(msg);
         });
