@@ -3,6 +3,7 @@ const client = new Discord.Client();
 const Simsimi = require('simsimi');
 const {
     token,
+    channelChatbotId,
     simsimiOption
 } = require('./config.json');
 
@@ -24,7 +25,7 @@ client.on('ready', function (message) {
     console.log(`Logged in as ${client.user.tag}!`);
     console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
     client.user.setActivity(`ดูดกัญชา`);
-    var channel = client.channels.get('300568765001891843');
+    //var channel = client.channels.get('300568765001891843');
     //channel.sendMessage('@everyone บอทมาแล้วจ้าาาาาาา ' + greetMsg + ':pray::skin-tone-3: :pray::skin-tone-3: :pray::skin-tone-3:')
     //channel.sendMessage('อย่ายุ่งกะกูกูงอล ชิชิชิ' )
     //channel.sendMessage('บอทไปก่อนน้าาาา บุ้ยบุย...' )
@@ -56,9 +57,7 @@ function search(key, array, remove) {
 
 client.on('message', function (message) {
     if (message.author.bot) return;
-    console.log('message ', message.content);
-
-
+    if (message.channel.id != channelChatbotId) return;
 
     if (message.content == '!unmute') {
         if (search(message.author.id, arrMuteBot, true)) {
@@ -76,20 +75,14 @@ client.on('message', function (message) {
     if (message.content == '!mute') {
         if (search(message.author.id, arrMuteBot, false)) return;
         arrMuteBot.push(message.author.id);
-        console.log('add user id : ', message.author.id);
-        console.log('arr ', arrMuteBot);
         message.reply('ชิชิชิ บังบาจ mute เค้าไปกะได้ *หากต้องการ unmute พิมพ์ !unmute');
     } else if (message.content != '!mute' && message.content != '!unmute') {
-
         simsimi.listen(message.content, function (err, msg) {
             if(err) return console.error(err);
             console.log('simsimi say : ', msg)
             message.reply(msg);
-
-
         });
     }
-
-})
+});
 
 client.login(token);
