@@ -1,14 +1,11 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const Simsimi = require('simsimi');
-const {
-    token,
-    channelChatbotId,
-    simsimiOption
-} = require('./config.json');
+const config = require('./config')
+const bot = require('discord-rich-presence')('440179849349562401');
 
-var simsimi = new Simsimi(simsimiOption);
-
+var simsimi = new Simsimi(config.simsimiOption);
+const startTimestamp = new Date();
 var arrMuteBot = [];
 client.on('ready', function (message) {
     let today = new Date();
@@ -29,7 +26,27 @@ client.on('ready', function (message) {
     //channel.sendMessage('@everyone บอทมาแล้วจ้าาาาาาา ' + greetMsg + ':pray::skin-tone-3: :pray::skin-tone-3: :pray::skin-tone-3:')
     //channel.sendMessage('อย่ายุ่งกะกูกูงอล ชิชิชิ' )
     //channel.sendMessage('บอทไปก่อนน้าาาา บุ้ยบุย...' )
+
+    // bot.updatePresence({
+    //     details: 'PUBG',
+    //     startTimestamp,
+    //     largeImageKey: 'large',
+    //     smallImageKey: 'small',
+        
+    //     partyId: 'alone',
+    //     partySize: 1,
+    //     partyMax: 4,
+    //     matchSecret: 'Hello',
+    //     joinSecret: 'join',
+    //     spectateSecret: 'look',
+    //     instance: false
+        
+    //   });
+
+
 });
+
+
 
 function search(key, array, remove) {
     if (remove) {
@@ -95,4 +112,4 @@ client.on('message', function (message) {
     }
 });
 
-client.login(token);
+client.login(config.token);
