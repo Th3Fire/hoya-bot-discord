@@ -1,9 +1,9 @@
 {
-    "token": "NDM2NzMwODg3NjU3MjI2MjQy.DcL4ZQ.36Vs03caV07BMQJbrs_5oR25AXQ",
-    "channelChatbotId": "438177609030041600",
+    "token": process.env.BOT_TOKEN,
+    "channelChatbotId": process.env.DISCORD_CHANNEL_ID,
     "simsimiOption": {
-        "lc": "en",
+        "lc": "th",
         "ft": "0.0",
-        "key": "28303022-9c1b-40e5-8d4c-8636b75b4ca9"
+        "key": process.env.SIM_KEY
     }
 }
