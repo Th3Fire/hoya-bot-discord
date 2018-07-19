@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const Simsimi = require('simsimi');
 const config = require('./config')
-const bot = require('discord-rich-presence')('440179849349562401');
+//const bot = require('discord-rich-presence')('440179849349562401');
 
 console.log('config : ', config)
 var simsimi = new Simsimi(config.simsimiOption);
