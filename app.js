@@ -4,7 +4,8 @@ const Simsimi = require('simsimi');
 const config = require('./config')
 //const bot = require('discord-rich-presence')('440179849349562401');
 
-console.log('config : ', config)
+const { channelChatbotId, simsimiOption, token } = config
+
 var simsimi = new Simsimi(config.simsimiOption);
 const startTimestamp = new Date();
 var arrMuteBot = [];
@@ -113,4 +114,4 @@ client.on('message', function (message) {
     }
 });
 
-client.login(config.token);
+client.login(token);
