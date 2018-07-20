@@ -2,62 +2,19 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const Simsimi = require('simsimi');
 const config = require('./config')
-//const bot = require('discord-rich-presence')('440179849349562401');
+const chalk = require('chalk');
 
 const { channelChatbotId, simsimiOption, token } = config
 
 var simsimi = new Simsimi(config.simsimiOption);
-const startTimestamp = new Date();
-var arrMuteBot = [];
-client.on('ready', function (message) {
-    let today = new Date();
-    let curHr = today.getHours();
-    let greetMsg = "";
+const log = console.log
 
-    if (curHr < 12) {
-        greetMsg = 'สวัสดีตอนเช้า';
-    } else if (curHr < 18) {
-        greetMsg = 'สวัสดีตอนบ่าย';
-    } else {
-        greetMsg = 'สวัสดีตอนเย็น';
-    }
-    console.log(`Logged in as ${client.user.tag}!`);
-    console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
-    client.user.setActivity(`ดูดกัญชา`);
-    //var channel = client.channels.get('300568765001891843');
-    //channel.sendMessage('@everyone บอทมาแล้วจ้าาาาาาา ' + greetMsg + ':pray::skin-tone-3: :pray::skin-tone-3: :pray::skin-tone-3:')
-    //channel.sendMessage('อย่ายุ่งกะกูกูงอล ชิชิชิ' )
-    //channel.sendMessage('บอทไปก่อนน้าาาา บุ้ยบุย...' )
-
-    // bot.updatePresence({
-    //     details: 'PUBG',
-    //     startTimestamp,
-    //     largeImageKey: 'large',
-    //     smallImageKey: 'small',
-        
-    //     partyId: 'alone',
-    //     partySize: 1,
-    //     partyMax: 4,
-    //     matchSecret: 'Hello',
-    //     joinSecret: 'join',
-    //     spectateSecret: 'look',
-    //     instance: false
-        
-    //   });
-
-
-});
-
-
-
-function search(key, array, remove) {
+var usersMuted = [];
+const search = (key, array, remove) => {
     if (remove) {
         for (let i = 0; i < array.length; i++) {
             if (array[i] === key) {
-                console.log('remove : ', arrMuteBot[i]);
-                arrMuteBot.splice(i, 1);
-                console.log('array  : ', arrMuteBot);
-                //return array[i];
+                usersMuted.splice(i, 1);
                 return true;
             }
         }
@@ -65,14 +22,18 @@ function search(key, array, remove) {
     } else {
         for (let i = 0; i < array.length; i++) {
             if (array[i] === key) {
-                //return array[i];
                 return true;
             }
         }
         return false;
     }
-
 }
+
+client.on('ready', function (message) {
+    log(chalk.green('Logged in as ' + chalk.blue.underline.bold(`${client.user.tag}!`) ));
+    log(chalk.green('Bot has started, with ' + chalk.hex('#00ff04').bold(client.users.size) + ' users, in ' + chalk.hex('#ff1ef7').bold(client.channels.size) + ' channels of ' + chalk.hex('#56d2ff').bold(client.guilds.size) + ' guilds.'));
+    client.user.setActivity(`ดูดกัญชา`);
+});
 
 client.on('message', function (message) {
     if (message.author.bot) return;
@@ -90,25 +51,24 @@ client.on('message', function (message) {
     if (message.channel.id != channelChatbotId) return;
 
     if (message.content == '!unmute') {
-        if (search(message.author.id, arrMuteBot, true)) {
+        if (search(message.author.id, usersMuted, true)) {
             message.reply('unmute เรียบร้อย คิดถึงเค้าละซิ้');
         } else {
-            return console.log('user not found : ', message.author.id);
+            return;
         }
-
     }
 
     //check user mute bot? if true not response that user.
-    if (search(message.author.id, arrMuteBot, false)) return;
+    if (search(message.author.id, usersMuted, false)) return;
 
     if (message.content == '!mute') {
-        if (search(message.author.id, arrMuteBot, false)) return;
-        arrMuteBot.push(message.author.id);
+        if (search(message.author.id, usersMuted, false)) return;
+        usersMuted.push(message.author.id);
         message.reply('ชิชิชิ บังบาจ mute เค้าไปกะได้ *หากต้องการ unmute พิมพ์ !unmute');
     } else if (message.content != '!mute' && message.content != '!unmute') {
         simsimi.listen(message.content, function (err, msg) {
-            if (err) return console.error(err);
-            console.log('simsimi say : ', msg)
+            if (err) return log.error(chalk.hex('#ff0000')(err));
+            log(chalk.hex('#fcfc20')('simsimi say : ') + chalk.hex('#fc2065')(msg))
             message.reply(msg);
         });
     }
