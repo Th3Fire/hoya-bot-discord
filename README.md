@@ -1,1 +1,2 @@
 # simsimi-discord
+Update Readme
