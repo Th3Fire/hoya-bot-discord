@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const chalk = require('chalk');
-const version = require('../package.json').version;
+const { author, version } = require('../package.json');
 
 const config = require('./config')
 const constants = require('./constants')
@@ -43,7 +43,7 @@ client.on('ready', message => {
             color: 11400258,
             //description: `สถานะ: สำเร็จ \nเวลา: ${new Date()} \nบอท: ${client.user.username} \nแชนแนล: ${channel.name} \nversion: ${version}`,
             footer: {
-                text: 'Developed by : Wuttinan Chaoyos [WannCry]'
+                text: `Developed by : ${author}`
             },
             fields: [
                 {
