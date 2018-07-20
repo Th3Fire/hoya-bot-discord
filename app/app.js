@@ -6,11 +6,11 @@ const version = require('../package.json').version;
 const config = require('./config')
 const constants = require('./constants')
 const func = require('./function')
-console.log('version : ', version)
 
 const { prefix, channelChatbotId, token } = config
 
 let channel;
+let testCH
 const log = console.log;
 
 var usersMuted = [];
@@ -33,28 +33,77 @@ const search = (key, array, remove) => {
     }
 }
 
-client.on('ready', function (message) {
+client.on('ready', message => {
     log(chalk.green('Logged in as ' + chalk.blue.underline.bold(`${client.user.tag}!`)));
     log(chalk.green('Bot has started, with ' + chalk.hex('#00ff04').bold(client.users.size) + ' users, in ' + chalk.hex('#ff1ef7').bold(client.channels.size) + ' channels of ' + chalk.hex('#56d2ff').bold(client.guilds.size) + ' guilds.'));
     channel = client.channels.get(channelChatbotId);
     channel.send({
         embed: {
-            title: '📈 Deploy status',
+            title: '📈Deploy application status',
             color: 11400258,
-            description: `สถานะ: สำเร็จ \nเวลา: ${new Date()} \nบอท: ${client.user.username} \nแชนแนล: ${channel.name} \nversion: ${version}`,
+            //description: `สถานะ: สำเร็จ \nเวลา: ${new Date()} \nบอท: ${client.user.username} \nแชนแนล: ${channel.name} \nversion: ${version}`,
             footer: {
-                text: 'Build by : Wuttinan Chaoyos [WannCry]'
-            }
+                text: 'Developed by : Wuttinan Chaoyos [WannCry]'
+            },
+            fields: [
+                {
+                    name: 'สถานะ:',
+                    value: 'สำเร็จ'
+                },
+                {
+                    name: 'ชื่อบอท:',
+                    value: client.user.username
+                }
+                , {
+                    name: 'แชนแนล:',
+                    value: channel.name
+                },
+                {
+                    name: 'ออนไลน์:',
+                    value: `${client.guilds.size} แชนแนล`
+                },
+                {
+                    name: 'เวลา:',
+                    value: new Date()
+                },
+                {
+                    name: 'เวอร์ชัน:',
+                    value: version
+                }
+            ],
+            timestamp: new Date(),
+
         }
     })
     client.user.setActivity(`ดูดกัญชา`);
 });
 
-client.on('message', function (message) {
+client.on("guildMemberAdd", (member) => {
+    log(`New User "${member.user.username}" has joined "${member.guild.name}"`);
+    channel.send(`🤝ยินดีต้อนรับ🤝 ${member.user.username} สู่ห้อง 🏠${member.guild.name}🏠`)
+});
+
+client.on("guildMemberRemove", (member) => {
+    log(`"${member.user.username}" has leave from "${member.guild.name}"`);
+    channel.send(`🤝ลาก่อน🤝 ${member.user.username} ได้ออกจากห้อง 🏠${member.guild.name}🏠`)
+});
+
+client.on("guildUpdate", (oldGuild, newGuild) => {
+    if (oldGuild.name !== newGuild.name) {
+        log(`ห้อง: ${oldGuild.name} เปลี่ยนชื่อห้องเป็น ${newGuild.name}`);
+        channel.send(`ห้อง: ${oldGuild.name} เปลี่ยนชื่อห้องเป็น ${newGuild.name}`)
+    }
+});
+
+client.on("userUpdate", (oldUser, newUser) => {
+    if (oldUser.username !== newUser.username) {
+        log(`member ${oldUser.username} เปลี่ยนชื่อผู้ใช้เป็น ${newUser.username}`);
+        channel.send(`member ${oldUser.username} เปลี่ยนชื่อผู้ใช้เป็น ${newUser.username}`)
+    }
+});
+
+client.on('message', async message => {
     if (message.author.bot) return;
-
-    let myRole = message.member.hasPermission([constants.MANAGE_CHANNELS], false, true)
-
     //private message to bot
     if (message.channel.type === 'dm') {
         if (message.content.indexOf('!msg') === 0) {
@@ -67,15 +116,10 @@ client.on('message', function (message) {
     }
     if (message.channel.id !== channelChatbotId) return;
 
-
-    //check message is command
     if (message.content.startsWith(prefix)) {
 
         const args = message.content.slice(prefix.length).trim().split(/ +/g)
         const command = args.shift().toLowerCase();
-
-        console.log('args : ', args)
-        console.log('command : ', command)
 
         try {
             let commandFile = require(`./commands/${command}`)
@@ -83,7 +127,6 @@ client.on('message', function (message) {
         } catch (err) {
             console.error(err)
         }
-
 
         if (message.content === '!unmute') {
             if (search(message.author.id, usersMuted, true)) {
@@ -97,24 +140,19 @@ client.on('message', function (message) {
             message.reply('ชิชิชิ บังบาจ mute เค้าไปกะได้ *หากต้องการ unmute พิมพ์ !unmute');
             return;
         }
-
         return;
     }
 
     //check user mute bot? if true not response that user.
     if (search(message.author.id, usersMuted, false)) return;
 
+    // Simsimi here
     try {
         func.simsimi(message)
     } catch (err) {
-        console.log(chalk.hex('#ff0000')(`error: ${err}`))
+        log(chalk.hex('#ff0000')(`error: ${err}`))
     }
 
-
 });
-
-client.on('disconnect', function (event) {
-    console.log('event : ', event)
-})
 
 client.login(token);

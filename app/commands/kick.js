@@ -1,5 +1,5 @@
 const constants = require('../constants')
-exports.run = (client, message, [mention, ...reason]) => {
+exports.run = async (client, message, [mention, ...reason]) => {
     let hasPermission = message.member.hasPermission([constants.KICK_MEMBERS], false, true)
     if (!hasPermission)
         return message.reply("You haven't permission to use this command.")
