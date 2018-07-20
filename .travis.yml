@@ -1,7 +1,12 @@
+sudo: required
 language: node_js
 cache:
   directories:
     - "node_modules"
+before_script:
+    - sudo apt-get install libtool-bin
+    - npm install sodium --unsafe-perm
+    - sudo npm install node-gyp -g
 deploy:
   provider: heroku
   api_key:
