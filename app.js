@@ -5,6 +5,7 @@ const config = require('./config')
 const chalk = require('chalk');
 
 const { channelChatbotId, simsimiOption, token } = config
+
 var simsimi = new Simsimi(config.simsimiOption);
 const log = console.log
 
