@@ -1,7 +1,7 @@
 const constants = require('./constants')
 module.exports = {
-    token: process.env.BOT_TOKEN || "NDY5NTA4MzM2NDIxOTYxNzM4.DjPRmQ.I3GGS4PJPTchvL6ZIiuqtAZB-Z0",
-    channelChatbotId: process.env.DISCORD_CHANNEL_ID || "362987223454449665",
+    token: process.env.BOT_TOKEN || "",
+    channelChatbotId: process.env.DISCORD_CHANNEL_ID || "",
     simsimiOption: {
         lc: process.env.SIM_LC || "th",
         ft: process.env.SIM_FT || "0.0",
