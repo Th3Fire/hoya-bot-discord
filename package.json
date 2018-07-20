@@ -5,7 +5,7 @@
   "main": "./app/app.js",
   "scripts": {
     "start": "node ./app/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
   "dependencies": {
     "chalk": "^2.4.1",
     "discord-rich-presence": "0.0.6",
-    "discord-rpc": "^3.0.0-beta.10",
+    "discord-rpc": "^3.0.0",
     "discord.js": "^11.3.2",
     "pkginfo": "^0.4.1",
     "simsimi": "^2.0.2",

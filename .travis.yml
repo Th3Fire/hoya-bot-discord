@@ -1,0 +1,16 @@
+sudo: required
+language: node_js
+cache:
+  directories:
+    - "node_modules"
+before_script:
+    - sudo apt-get install libtool-bin
+    - npm install sodium --unsafe-perm
+    - sudo npm install node-gyp -g
+deploy:
+  provider: heroku
+  api_key:
+    secure: gD1znPVhHwkI4YAfRDpP3j6DaMWw+RimCtvi7hdEZuElSZDn2y1inJ4JkTeoEuMKe/Frf7bCQvz8BPhfYgj78MgIzt7LcJfG8J44ZG2IPEyq25BiKSZUKK4VlNl/QExoQct9H862Dy7yueFpKuivnrzqSA7mgV75F4idBkXp/oOnSlglkJVpJHps9Y5t2p+2mpwcJEYU79Q5YSEq4S8yCRtqoTlop4HMo0D2w6JTvqDR+wMFy7+W3Xf4KaJp3vycQsxcwyZIzNGhwlUr7UTaet0V9DY+CRbW88ZmXLcoC9COLszi+kAf2CSoUTBQDNspfUQAWc3rGFK+yZH30EMKG2MBDgA5W/W55vWmM4msI7XvBfiaBZoqdAzjusfR9nL6+W5JNB1oqglnlfy1qEJHgt9wAIjQ6lbMWEEFzk+Pk4rcQzydhXLHb8BXy9lX9iuuIUTtt1znNH0ZduEHU1lYrfL56T5Q5oPKFeo2s2JlRb0AsHVvJIgeEbE/GrZB0myhnDW0Eufx9caeDkKp7TiiVdwmsocu7psGp0O2vI70aJi/Riz2bsDCYFY0jm3T+e0tHGZJAA89QhISiLD7Dt4VvtfpWN74yquheES3P50af5EhQlaLHrldi6zJOZpsvC7Xu0HLvATu+cCcjKTn91ING8Gpk+9bgG4cVSMCEqbOf0o=
+  app: my-app-test
+  on:
+    all_branches: true
