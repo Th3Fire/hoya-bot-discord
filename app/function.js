@@ -5,10 +5,12 @@ const { author } = require('../package.json');
 const { propEq } = require('ramda')
 const { simsimiOption } = config
 const path = require('path');
-
+const { key } = require('./key/sim-key.json')
+const { lc, ft, key = key } = simsimiOption
 const simsimi = new Simsimi(simsimiOption);
 const appDir = path.dirname(require.main.filename);
 const fs = require('fs')
+console.log('func key : ', key)
 module.exports = {
     simsimi: (message) => {
         console.log('simsimiOption : ', simsimiOption)
