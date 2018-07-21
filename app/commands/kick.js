@@ -5,18 +5,18 @@ exports.run = async (client, message, [mention, ...reason]) => {
     if (!hasPermission)
         return message.reply("You haven't permission to use this command.")
 
-    if (message.mentions.members.size === 0)
+    let kickMember = message.mentions.members.first();
+    if (!kickMember)
         return message.reply("Please mention a user to kick");
-
-    const kickMember = message.mentions.members.first();
-
     if (!kickMember.kickable) {
         return message.reply("I cannot kick this user! Do they have a higher role? Do I have kick permissions?");
     }
 
-    kickMember.kick(isEmpty(reason) ? "No reason provided" : reason.join(" ")).then(member => {
-        console.log(`user ${message.member.user.username} was kicked ${kickMember.user.username}`)
-        message.reply(`${member.user.username} was succesfully kicked.`);
-    }).catch( (err) => console.error(err));
+    const kickedReason = isEmpty(reason) ? "No reason provided" : reason.join(" ")
+    await kickMember.kick(kickedReason)
+        .then(member => {
+            console.log(`user ${member.user.tag} has been kicked by ${message.author.tag}`)
+            message.reply(`${member.user.username} has been kicked by ${message.author.username} because: ${kickedReason}`);
+        }).catch((err) => console.error(err));
 
 }
