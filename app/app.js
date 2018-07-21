@@ -121,13 +121,13 @@ client.on('message', async message => {
     if (message.content.startsWith(prefix)) {
         const args = message.content.slice(prefix.length).trim().split(/ +/g)
         const command = args.shift().toLowerCase();
-        if (command === `unmute`) {
+        if (command === 'unmute') {
             if (search(message.author.id, usersMuted, true)) {
                 return message.reply('unmute เรียบร้อย คิดถึงเค้าละซิ้');
             } else {
                 return;
             }
-        } else if (command === `mute`) {
+        } else if (command === 'mute') {
             if (search(message.author.id, usersMuted, false)) return;
             usersMuted.push(message.author.id);
             return message.reply('ชิชิชิ บังบาจ mute เค้าไปกะได้ *หากต้องการ unmute พิมพ์ !unmute');
