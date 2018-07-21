@@ -10,6 +10,7 @@ module.exports = {
     simsimi: (message) => {
         simsimi.listen(message.content, function (err, msg) {
             if (err) {
+                console.log('err.result :', err.result)
                 if (err.result === '509') {
                     console.log('509')
                     message.reply(`คีย์ Simsimi หมดอายุแล้ว เรียก ${author} ให้โหน่ยยยย...`);
