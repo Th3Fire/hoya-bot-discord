@@ -1,9 +1,6 @@
 const Simsimi = require('simsimi');
 const chalk = require('chalk');
 const config = require('./config')
-const fs = require('fs')
-const path = require('path');
-const appDir = path.dirname(require.main.filename);
 const { author } = require('../package.json');
 const { simsimiOption } = config
 const simsimi = new Simsimi(simsimiOption);
