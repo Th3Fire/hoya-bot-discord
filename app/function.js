@@ -14,7 +14,7 @@ module.exports = {
 
         fs.readFile(appDir + '/key/sim-key.json', (err, data) => {
             if (err) throw err;
-            console.log(data);
+            console.log(data.key);
           });
 
         simsimi.listen(message.content, function (err, msg) {
