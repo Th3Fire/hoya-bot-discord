@@ -1,23 +1,25 @@
 const Simsimi = require('simsimi');
 const chalk = require('chalk');
 const config = require('./config')
-const { author } = require('../package.json');
-const { propEq } = require('ramda')
-const { simsimiOption } = config
-const path = require('path');
-const { key } = require('./key/sim-key.json')
-const { lc, ft, key = key } = simsimiOption
-const simsimi = new Simsimi(simsimiOption);
-const appDir = path.dirname(require.main.filename);
 const fs = require('fs')
-console.log('func key : ', key)
+const path = require('path');
+const appDir = path.dirname(require.main.filename);
+const { author } = require('../package.json');
+const { simsimiOption } = config
+
+
 module.exports = {
+    readFile: (path = "") => {
+        console.log('path : ', path)
+        const content = fs.readFileSync(path, "utf8", (err, data) => {
+            if (err) return console.error(err)
+        });
+        return JSON.parse(content);
+    },
     simsimi: (message) => {
-        console.log('simsimiOption : ', simsimiOption)
-        fs.readFile(appDir + '/key/sim-key.json', (err, data) => {
-            if (err) throw err;
-            console.log(data.key);
-          });
+        const { key } = module.exports.readFile(appDir + "\\key\\sim-key.json");
+        simsimiOption.key = key;
+        const simsimi = new Simsimi(simsimiOption);
 
         simsimi.listen(message.content, function (err, msg) {
             if (err) {
