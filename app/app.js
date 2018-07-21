@@ -6,7 +6,13 @@ const { author, version } = require('../package.json');
 const config = require('./config')
 const func = require('./function')
 
-const { prefix, channelChatbotId, token, activity } = config
+const {
+    prefix,
+    mainChannelIDChatbot,
+    token,
+    activity,
+    multiChannel
+} = config
 
 let channel;
 var usersMuted = [];
@@ -32,7 +38,7 @@ const search = (key, array, remove) => {
 client.on('ready', () => {
     console.log(chalk.green('Logged in as ' + chalk.blue.underline.bold(`${client.user.tag}!`)));
     console.log(chalk.green('Bot has started, with ' + chalk.hex('#00ff04').bold(client.users.size) + ' users, in ' + chalk.hex('#ff1ef7').bold(client.channels.size) + ' channels of ' + chalk.hex('#56d2ff').bold(client.guilds.size) + ' guilds.'));
-    channel = client.channels.get(channelChatbotId);
+    channel = client.channels.get(mainChannelIDChatbot);
     channel.send({
         embed: {
             title: '📈Deploy application status',
@@ -110,19 +116,12 @@ client.on('message', async message => {
         }
         return;
     }
-    if (message.channel.id !== channelChatbotId) return;
+    if (message.channel.id !== mainChannelIDChatbot && !multiChannel) return;
 
     if (message.content.startsWith(prefix)) {
 
         const args = message.content.slice(prefix.length).trim().split(/ +/g)
         const command = args.shift().toLowerCase();
-
-        try {
-            let commandFile = require(`./commands/${command}`)
-            commandFile.run(client, message, args)
-        } catch (err) {
-            console.error(err)
-        }
 
         if (message.content === '!unmute') {
             if (search(message.author.id, usersMuted, true)) {
@@ -135,6 +134,14 @@ client.on('message', async message => {
             usersMuted.push(message.author.id);
             message.reply('ชิชิชิ บังบาจ mute เค้าไปกะได้ *หากต้องการ unmute พิมพ์ !unmute');
             return;
+        }
+
+        try {
+            let commandFile = require(`./commands/${command}`)
+            commandFile.run(client, message, args)
+        } catch (err) {
+            console.error(err)
+            message.reply(`ไม่พบคำสั่ง ${prefix}${command}`);
         }
         return;
     }
