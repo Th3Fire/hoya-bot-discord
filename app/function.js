@@ -11,8 +11,7 @@ module.exports = {
     simsimi: (message) => {
         simsimi.listen(message.content, function (err, msg) {
             if (err) {
-                if (propEq('result', '509')(err)) {
-                    console.log('509')
+                if (err.result === 509) {
                     message.reply(`คีย์ Simsimi หมดอายุแล้ว เรียก ${author} ให้โหน่ยยยย...`);
                 }
                 return console.log(chalk.hex('#ff0000')(`error result : ${err.result}, message: ${err.msg}`));
