@@ -11,7 +11,7 @@ const appDir = path.dirname(require.main.filename);
 const fs = require('fs')
 module.exports = {
     simsimi: (message) => {
-
+        console.log('simsimiOption : ', simsimiOption)
         fs.readFile(appDir + '/key/sim-key.json', (err, data) => {
             if (err) throw err;
             console.log(data.key);
