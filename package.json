@@ -31,7 +31,5 @@
     "simsimi": "^2.0.2",
     "unirest": "^0.5.1"
   },
-  "devDependencies": {
-    "eslint": "^5.2.0"
-  }
+  "devDependencies": {}
 }
