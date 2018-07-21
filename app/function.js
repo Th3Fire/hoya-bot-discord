@@ -17,7 +17,7 @@ module.exports = {
         return JSON.parse(content);
     },
     simsimi: (message) => {
-        const { key } = module.exports.readFile(appDir + "\\key\\sim-key.json");
+        const { key } = module.exports.readFile(appDir + "/key/sim-key.json");
         simsimiOption.key = key;
         const simsimi = new Simsimi(simsimiOption);
 
