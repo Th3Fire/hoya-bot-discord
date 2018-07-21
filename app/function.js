@@ -10,7 +10,6 @@ const { simsimiOption } = config
 
 module.exports = {
     readFile: (path = "") => {
-        console.log('path : ', path)
         const content = fs.readFileSync(path, "utf8", (err, data) => {
             if (err) return console.error(err)
         });
