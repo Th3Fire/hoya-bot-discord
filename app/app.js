@@ -4,15 +4,11 @@ const chalk = require('chalk');
 const { author, version } = require('../package.json');
 
 const config = require('./config')
-const constants = require('./constants')
 const func = require('./function')
 
-const { prefix, channelChatbotId, token } = config
+const { prefix, channelChatbotId, token, activity } = config
 
 let channel;
-let testCH
-const log = console.log;
-
 var usersMuted = [];
 const search = (key, array, remove) => {
     if (remove) {
@@ -33,9 +29,9 @@ const search = (key, array, remove) => {
     }
 }
 
-client.on('ready', message => {
-    log(chalk.green('Logged in as ' + chalk.blue.underline.bold(`${client.user.tag}!`)));
-    log(chalk.green('Bot has started, with ' + chalk.hex('#00ff04').bold(client.users.size) + ' users, in ' + chalk.hex('#ff1ef7').bold(client.channels.size) + ' channels of ' + chalk.hex('#56d2ff').bold(client.guilds.size) + ' guilds.'));
+client.on('ready', () => {
+    console.log(chalk.green('Logged in as ' + chalk.blue.underline.bold(`${client.user.tag}!`)));
+    console.log(chalk.green('Bot has started, with ' + chalk.hex('#00ff04').bold(client.users.size) + ' users, in ' + chalk.hex('#ff1ef7').bold(client.channels.size) + ' channels of ' + chalk.hex('#56d2ff').bold(client.guilds.size) + ' guilds.'));
     channel = client.channels.get(channelChatbotId);
     channel.send({
         embed: {
@@ -75,29 +71,29 @@ client.on('ready', message => {
 
         }
     })
-    client.user.setActivity(`ดูดกัญชา`);
+    client.user.setActivity(activity);
 });
 
 client.on("guildMemberAdd", (member) => {
-    log(`New User "${member.user.username}" has joined "${member.guild.name}"`);
+    console.log(`New User "${member.user.username}" has joined "${member.guild.name}"`);
     channel.send(`🤝ยินดีต้อนรับ🤝 ${member.user.username} สู่ห้อง 🏠${member.guild.name}🏠`)
 });
 
 client.on("guildMemberRemove", (member) => {
-    log(`"${member.user.username}" has leave from "${member.guild.name}"`);
+    console.log(`"${member.user.username}" has leave from "${member.guild.name}"`);
     channel.send(`🤝ลาก่อน🤝 ${member.user.username} ได้ออกจากห้อง 🏠${member.guild.name}🏠`)
 });
 
 client.on("guildUpdate", (oldGuild, newGuild) => {
     if (oldGuild.name !== newGuild.name) {
-        log(`ห้อง: ${oldGuild.name} เปลี่ยนชื่อห้องเป็น ${newGuild.name}`);
+        console.log(`ห้อง: ${oldGuild.name} เปลี่ยนชื่อห้องเป็น ${newGuild.name}`);
         channel.send(`ห้อง: ${oldGuild.name} เปลี่ยนชื่อห้องเป็น ${newGuild.name}`)
     }
 });
 
 client.on("userUpdate", (oldUser, newUser) => {
     if (oldUser.username !== newUser.username) {
-        log(`member ${oldUser.username} เปลี่ยนชื่อผู้ใช้เป็น ${newUser.username}`);
+        console.log(`member ${oldUser.username} เปลี่ยนชื่อผู้ใช้เป็น ${newUser.username}`);
         channel.send(`member ${oldUser.username} เปลี่ยนชื่อผู้ใช้เป็น ${newUser.username}`)
     }
 });
@@ -150,7 +146,7 @@ client.on('message', async message => {
     try {
         func.simsimi(message)
     } catch (err) {
-        log(chalk.hex('#ff0000')(`error: ${err}`))
+        console.log(chalk.hex('#ff0000')(`error: ${err}`))
     }
 
 });

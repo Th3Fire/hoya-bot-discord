@@ -27,7 +27,11 @@
     "discord-rpc": "^3.0.0",
     "discord.js": "^11.3.2",
     "pkginfo": "^0.4.1",
+    "ramda": "^0.25.0",
     "simsimi": "^2.0.2",
     "unirest": "^0.5.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.2.0"
   }
 }

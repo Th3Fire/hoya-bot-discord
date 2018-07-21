@@ -8,5 +8,6 @@ module.exports = {
         key: process.env.SIM_KEY || ""
     },
     prefix: process.env.PREFIX || "!",
-    ownerBotRole: [constants.MANAGE_CHANNELS]
+    ownerBotRole: [constants.MANAGE_CHANNELS],
+    activity: process.env.BOT_ACTIVITY || ""
 }
