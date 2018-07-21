@@ -6,20 +6,10 @@ const path = require('path');
 const appDir = path.dirname(require.main.filename);
 const { author } = require('../package.json');
 const { simsimiOption } = config
-
+const simsimi = new Simsimi(simsimiOption);
 
 module.exports = {
-    readFile: (path = "") => {
-        const content = fs.readFileSync(path, "utf8", (err, data) => {
-            if (err) return console.error(err)
-        });
-        return JSON.parse(content);
-    },
     simsimi: (message) => {
-        const { key } = module.exports.readFile(appDir + "/key/sim-key.json");
-        simsimiOption.key = key;
-        const simsimi = new Simsimi(simsimiOption);
-
         simsimi.listen(message.content, function (err, msg) {
             if (err) {
                 if (err.result === 509) {
