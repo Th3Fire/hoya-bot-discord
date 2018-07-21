@@ -4,11 +4,19 @@ const config = require('./config')
 const { author } = require('../package.json');
 const { propEq } = require('ramda')
 const { simsimiOption } = config
+const path = require('path');
 
 const simsimi = new Simsimi(simsimiOption);
+const appDir = path.dirname(require.main.filename);
 
 module.exports = {
     simsimi: (message) => {
+
+        fs.readFile(appDir + '/key/sim-key.json', (err, data) => {
+            if (err) throw err;
+            console.log(data);
+          });
+
         simsimi.listen(message.content, function (err, msg) {
             if (err) {
                 if (err.result === 509) {

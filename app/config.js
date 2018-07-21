@@ -1,5 +1,7 @@
 const constants = require('./constants')
 const { key } = require('./key/sim-key.json')
+
+console.log('key : ', key)
 module.exports = {
     token: process.env.BOT_TOKEN || "",
     mainChannelIDChatbot: process.env.DISCORD_CHANNEL_ID || "",
