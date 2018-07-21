@@ -1,0 +1,26 @@
+const R = require('ramda')
+const constants = require('../constants')
+exports.run = async (client, message, days) => {
+    const hasPermission = message.member.hasPermission([constants.ADMINISTRATOR], false, true)
+    if (!hasPermission)
+        return message.reply("You haven't permission to use this command.")
+
+    const daysToInt = parseInt(days[0])
+    const isNumber = R.both(R.is(Number), R.complement(R.equals(NaN)))(daysToInt)
+    if (!isNumber)
+        return message.reply("จำนวนวันต้องเป็นตัวเลขและอยู่ระหว่าง 1 ถึง 30")
+    if (daysToInt < 1 || daysToInt > 30)
+        return message.reply("โปรดระบุจำนวนวันระหว่าง 1 ถึง 30")
+    try {
+        const daysInt = parseInt(daysToInt)
+        daysInt && message.guild.pruneMembers(daysInt, true)
+            .then(pruned => {
+                console.log(`member จำนวน ${pruned} คน ไม่ออนไลน์ในระยะเวลา ${days[0]} วัน`)
+                return message.reply(`member จำนวน ${pruned} คน ไม่ออนไลน์ในระยะเวลา ${days[0]} วัน`)
+            })
+            .catch(console.error);
+    } catch (err) {
+        console.log(err)
+    }
+
+}
