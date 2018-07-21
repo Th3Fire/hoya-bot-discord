@@ -2,6 +2,7 @@ const Simsimi = require('simsimi');
 const chalk = require('chalk');
 const config = require('./config')
 const { author } = require('../package.json');
+const { propEq } = require('ramda')
 const { simsimiOption } = config
 
 const simsimi = new Simsimi(simsimiOption);
@@ -10,8 +11,7 @@ module.exports = {
     simsimi: (message) => {
         simsimi.listen(message.content, function (err, msg) {
             if (err) {
-                console.log('err.result :', err.result)
-                if (err.result === '509') {
+                if (propEq('result', '509')(err)) {
                     console.log('509')
                     message.reply(`คีย์ Simsimi หมดอายุแล้ว เรียก ${author} ให้โหน่ยยยย...`);
                 }
