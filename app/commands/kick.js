@@ -1,6 +1,7 @@
+const { isEmpty } = require('ramda')
 const constants = require('../constants')
 exports.run = async (client, message, [mention, ...reason]) => {
-    let hasPermission = message.member.hasPermission([constants.KICK_MEMBERS], false, true)
+    const hasPermission = message.member.hasPermission([constants.KICK_MEMBERS], false, true)
     if (!hasPermission)
         return message.reply("You haven't permission to use this command.")
 
@@ -9,7 +10,12 @@ exports.run = async (client, message, [mention, ...reason]) => {
 
     const kickMember = message.mentions.members.first();
 
-    kickMember.kick(reason.join(" ")).then(member => {
+    if (!kickMember.kickable) {
+        return message.reply("I cannot kick this user! Do they have a higher role? Do I have kick permissions?");
+    }
+
+    kickMember.kick(isEmpty(reason) ? "No reason provided" : reason.join(" ")).then(member => {
+        console.log(`user ${message.member.user.username} was kicked ${kickMember.user.username}`)
         message.reply(`${member.user.username} was succesfully kicked.`);
     }).catch( (err) => console.error(err));
 
