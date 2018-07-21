@@ -8,7 +8,7 @@ const path = require('path');
 
 const simsimi = new Simsimi(simsimiOption);
 const appDir = path.dirname(require.main.filename);
-
+const fs = require('fs')
 module.exports = {
     simsimi: (message) => {
 
