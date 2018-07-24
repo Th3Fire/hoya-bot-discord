@@ -14,7 +14,7 @@ const {
     multiChannel
 } = config
 
-let channel;
+
 var usersMuted = [];
 const search = (key, array, remove) => {
     if (remove) {
@@ -35,59 +35,61 @@ const search = (key, array, remove) => {
     }
 }
 
-client.on('ready', () => {
+client.on('ready', async () => {
     console.log(chalk.green('Logged in as ' + chalk.blue.underline.bold(`${client.user.tag}!`)));
     console.log(chalk.green('Bot has started, with ' + chalk.hex('#00ff04').bold(client.users.size) + ' users, in ' + chalk.hex('#ff1ef7').bold(client.channels.size) + ' channels of ' + chalk.hex('#56d2ff').bold(client.guilds.size) + ' guilds.'));
-    channel = client.channels.get(mainChannelIDChatbot);
-    channel.send({
-        embed: {
-            title: '📈Deploy application status',
-            color: 11400258,
-            //description: `สถานะ: สำเร็จ \nเวลา: ${new Date()} \nบอท: ${client.user.username} \nแชนแนล: ${channel.name} \nversion: ${version}`,
-            footer: {
-                text: `Developed by : ${author}`
-            },
-            fields: [
-                {
-                    name: 'สถานะ:',
-                    value: 'สำเร็จ'
-                },
-                {
-                    name: 'ชื่อบอท:',
-                    value: client.user.username
-                }
-                , {
-                    name: 'แชนแนล:',
-                    value: channel.name
-                },
-                {
-                    name: 'ออนไลน์:',
-                    value: `${client.guilds.size} แชนแนล`
-                },
-                {
-                    name: 'เวลา:',
-                    value: new Date()
-                },
-                {
-                    name: 'เวอร์ชัน:',
-                    value: version
-                }
-            ],
-            timestamp: new Date(),
+    // const ch = await client.channels.get(mainChannelIDChatbot)
+    // //console.log('ch : ', ch)
+    // //console.log('client.guild : ', client.channels)
+    // //console.log('default : ', getDefaultChannel(client.channels.guild))
 
-        }
-    })
+    // let unique = [...new Set(client.channels.map(item => item.guild.id))];
+    // //console.log('unique : ', unique)
+    // client.channels.map(async data => {
+    //     console.log('data.guild.id :', data.guild.id)
+    //     console.log('data.guild.name :', data.guild.name)
+
+    //     const checkSent = sentMsgCollection.find(data.guild.id, data.guild.name)
+    //     console.log('checkSent : ', checkSent)
+    //     const channel = await getDefaultChannel(data.guild);
+    //     await sentMsgCollection.set(data.guild.id, data.guild.name)
+    //     //!checkSent && channel.send('xxx')
+    // })
+    // client.channels.map(data => data.type === 'text' && data.name === 'general' && channelCollection.set(data.id, data.name)
+
+    // )
+
+    // let checkSent = sentMsgCollection.find('471376984220368916', 'test')
+    // console.log('checkSent : ', checkSent)
+    // console.log('collection :', channelCollection)
+
+    // //ch.send(getStatus(client, ch))
+    // //const channel = client.channels.map(async x => await x.send(status));
+
+    // // channel && channel.send({
+    // // })
     client.user.setActivity(activity);
 });
 
-client.on("guildMemberAdd", (member) => {
-    console.log(`New User "${member.user.username}" has joined "${member.guild.name}"`);
-    channel.send(`🤝ยินดีต้อนรับ🤝 ${member.user.username} สู่ห้อง 🏠${member.guild.name}🏠`)
+client.on("guildMemberAdd", async (member) => {
+    try {
+        const channel = await func.getDefaultChannel(member.guild);
+        console.log(`New user "${member.user.username}" has joined server"${member.guild.name}"`);
+        channel.send(`🤝สวัสดี🤝 ${member} ยินดีต้อนรับสู่ห้อง 🏠${member.guild.name}🏠`);
+    } catch (err) {
+        console.error(err)
+    }
 });
 
-client.on("guildMemberRemove", (member) => {
-    console.log(`"${member.user.username}" has leave from "${member.guild.name}"`);
-    channel.send(`🤝ลาก่อน🤝 ${member.user.username} ได้ออกจากห้อง 🏠${member.guild.name}🏠`)
+client.on("guildMemberRemove", async (member) => {
+    try {
+        const channel = await func.getDefaultChannel(member.guild)
+        console.log(`"${member.user.username}" has leave from server "${member.guild.name}"`);
+        channel.send(`👋บ๊ายบาย👋 ${member} ได้ออกจากห้อง 🏠${member.guild.name}🏠`)
+    } catch (err) {
+        console.error(err)
+    }
+
 });
 
 client.on("guildUpdate", (oldGuild, newGuild) => {
