@@ -32,8 +32,8 @@ module.exports = {
             .first();
     },
     getLogChannel: (guild) => {
-        if (guild.channels.has(guild.id))
-            return guild.channels.get(guild.id)
+//         if (guild.channels.has(guild.id))
+//             return guild.channels.get(guild.id)
         if (guild.channels.exists("name", "bot-log")) {
             return guild.channels.find("name", "bot-log");
         }
