@@ -153,7 +153,7 @@ client.on('message', async message => {
         return;
     }
     
-    if ((message.channel.name !== emojiStrip(botChannelName)) && (multiChannel === 'N')) return;
+    if ((emojiStrip(message.channel.name) !== botChannelName) && (multiChannel === 'N')) return;
 
     //check user mute bot? if true not response that user.
     if (search(message.author.id, usersMuted, false)) return;
