@@ -26,6 +26,7 @@
     "discord-rich-presence": "0.0.6",
     "discord-rpc": "^3.0.0",
     "discord.js": "^11.3.2",
+    "emoji-strip": "^1.0.1",
     "fs": "0.0.1-security",
     "path": "^0.12.7",
     "pkginfo": "^0.4.1",
