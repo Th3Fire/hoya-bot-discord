@@ -31,6 +31,7 @@ module.exports = {
                 Long.fromString(a.id).sub(Long.fromString(b.id)).toNumber())
             .first();
     },
+
     getBotChannel: (guild) => {
         if (guild.channels.has(guild.id))
             return guild.channels.get(guild.id)
