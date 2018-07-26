@@ -128,7 +128,7 @@ client.on('message', async message => {
     console.log('message.channel.name',message.channel.name)
     console.log('botChannelName',botChannelName)
     console.log('multiChannel',multiChannel)
-    if ((message.channel.name !== botChannelName) && (multiChannel !== 'N')) return;
+    if ((message.channel.name !== botChannelName) && (multiChannel === 'N')) return;
 
     if (message.content.startsWith(prefix)) {
         const args = message.content.slice(prefix.length).trim().split(/ +/g)
