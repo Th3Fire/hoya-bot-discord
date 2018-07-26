@@ -11,7 +11,8 @@ const {
     mainChannelIDChatbot,
     token,
     activity,
-    multiChannel
+    multiChannel,
+    botChannelName
 } = config
 
 
@@ -90,6 +91,7 @@ client.on("messageUpdate", async (oldMessage, newMessage) => {
 
 client.on("messageDelete", async (message) => {
     try {
+        console.log('message : ', message)
         const channel = await func.getLogChannel(message.member.guild);
         if (message.author.bot) return;
         const embed = new Discord.RichEmbed()
@@ -124,7 +126,7 @@ client.on('message', async message => {
         }
         return;
     }
-    // if (message.channel.id !== mainChannelIDChatbot && !multiChannel) return;
+    if (message.channel.name !== botChannelName && !multiChannel) return;
 
     if (message.content.startsWith(prefix)) {
         const args = message.content.slice(prefix.length).trim().split(/ +/g)
