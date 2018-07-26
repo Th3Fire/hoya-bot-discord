@@ -116,15 +116,15 @@ client.on("userUpdate", (oldUser, newUser) => {
 client.on('message', async message => {
     if (message.author.bot) return;
     //private message to bot
-    if (message.channel.type === 'dm') {
-        if (message.content.indexOf('!msg') === 0) {
-            let msg = message.content.split(' ');
-            if (msg.length > 1) {
-                channel.send(msg[1]);
-            }
-        }
-        return;
-    }
+//     if (message.channel.type === 'dm') {
+//         if (message.content.indexOf('!msg') === 0) {
+//             let msg = message.content.split(' ');
+//             if (msg.length > 1) {
+//                 channel.send(msg[1]);
+//             }
+//         }
+//         return;
+//     }
     
 
     if (message.content.startsWith(prefix)) {
