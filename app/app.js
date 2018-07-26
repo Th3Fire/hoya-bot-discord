@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const chalk = require('chalk');
+const emojiStrip = require('emoji-strip')
 const { author, version } = require('../package.json');
 
 const config = require('./config')
@@ -152,7 +153,7 @@ client.on('message', async message => {
         return;
     }
     
-    if ((message.channel.name !== botChannelName) && (multiChannel === 'N')) return;
+    if ((message.channel.name !== emojiStrip(botChannelName)) && (multiChannel === 'N')) return;
 
     //check user mute bot? if true not response that user.
     if (search(message.author.id, usersMuted, false)) return;
