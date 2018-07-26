@@ -12,6 +12,7 @@ module.exports = {
     prefix: process.env.PREFIX || "!",
     ownerBotID: process.env.OWNER_BOT_ID || "",
     activity: process.env.BOT_ACTIVITY || "",
-    multiChannel: process.env.MULTI_CHANNEL || true
+    multiChannel: process.env.MULTI_CHANNEL || false,
+    botChannelName: process.env.CHANNEL_NAME || "chat-bot"
 }
 

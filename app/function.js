@@ -31,9 +31,23 @@ module.exports = {
                 Long.fromString(a.id).sub(Long.fromString(b.id)).toNumber())
             .first();
     },
-    getLogChannel: (guild) => {
+
+    getBotChannel: (guild) => {
         if (guild.channels.has(guild.id))
             return guild.channels.get(guild.id)
+        if (guild.channels.exists("name", "chat-bot")) {
+            return guild.channels.find("name", "chat-bot");
+        }
+        return guild.channels
+            .filter(c => c.type === "text" &&
+                c.permissionsFor(guild.client.user).has("SEND_MESSAGES"))
+            .sort((a, b) => a.position - b.position ||
+                Long.fromString(a.id).sub(Long.fromString(b.id)).toNumber())
+            .first();
+    },
+    getLogChannel: (guild) => {
+        // if (guild.channels.has(guild.id))
+        //     return guild.channels.get(guild.id)
         if (guild.channels.exists("name", "bot-log")) {
             return guild.channels.find("name", "bot-log");
         }

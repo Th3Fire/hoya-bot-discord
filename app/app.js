@@ -11,7 +11,8 @@ const {
     mainChannelIDChatbot,
     token,
     activity,
-    multiChannel
+    multiChannel,
+    botChannelName
 } = config
 
 
@@ -124,7 +125,7 @@ client.on('message', async message => {
         }
         return;
     }
-    // if (message.channel.id !== mainChannelIDChatbot && !multiChannel) return;
+    if (message.channel.name !== botChannelName && !multiChannel) return;
 
     if (message.content.startsWith(prefix)) {
         const args = message.content.slice(prefix.length).trim().split(/ +/g)
