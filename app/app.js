@@ -38,36 +38,6 @@ const search = (key, array, remove) => {
 client.on('ready', async () => {
     console.log(chalk.green('Logged in as ' + chalk.blue.underline.bold(`${client.user.tag}!`)));
     console.log(chalk.green('Bot has started, with ' + chalk.hex('#00ff04').bold(client.users.size) + ' users, in ' + chalk.hex('#ff1ef7').bold(client.channels.size) + ' channels of ' + chalk.hex('#56d2ff').bold(client.guilds.size) + ' guilds.'));
-    // const ch = await client.channels.get(mainChannelIDChatbot)
-    // //console.log('ch : ', ch)
-    // //console.log('client.guild : ', client.channels)
-    // //console.log('default : ', getDefaultChannel(client.channels.guild))
-
-    // let unique = [...new Set(client.channels.map(item => item.guild.id))];
-    // //console.log('unique : ', unique)
-    // client.channels.map(async data => {
-    //     console.log('data.guild.id :', data.guild.id)
-    //     console.log('data.guild.name :', data.guild.name)
-
-    //     const checkSent = sentMsgCollection.find(data.guild.id, data.guild.name)
-    //     console.log('checkSent : ', checkSent)
-    //     const channel = await getDefaultChannel(data.guild);
-    //     await sentMsgCollection.set(data.guild.id, data.guild.name)
-    //     //!checkSent && channel.send('xxx')
-    // })
-    // client.channels.map(data => data.type === 'text' && data.name === 'general' && channelCollection.set(data.id, data.name)
-
-    // )
-
-    // let checkSent = sentMsgCollection.find('471376984220368916', 'test')
-    // console.log('checkSent : ', checkSent)
-    // console.log('collection :', channelCollection)
-
-    // //ch.send(getStatus(client, ch))
-    // //const channel = client.channels.map(async x => await x.send(status));
-
-    // // channel && channel.send({
-    // // })
     client.user.setActivity(activity);
 });
 
@@ -77,7 +47,7 @@ client.on("guildMemberAdd", async (member) => {
         console.log(`New user "${member.user.username}" has joined server"${member.guild.name}"`);
         channel.send(`🤝สวัสดี🤝 ${member} ยินดีต้อนรับสู่ห้อง 🏠${member.guild.name}🏠`);
     } catch (err) {
-        console.error(err)
+        console.error(err);
     }
 });
 
@@ -85,9 +55,10 @@ client.on("guildMemberRemove", async (member) => {
     try {
         const channel = await func.getDefaultChannel(member.guild)
         console.log(`"${member.user.username}" has leave from server "${member.guild.name}"`);
-        channel.send(`👋บ๊ายบาย👋 ${member.user.username} ได้ออกจากห้อง 🏠${member.guild.name}🏠`)
+        channel.send(`👋บ๊ายบาย👋 \`${member.user.username}\` ได้ออกจากห้อง 🏠${member.guild.name}🏠`)
+
     } catch (err) {
-        console.error(err)
+        console.error(err);
     }
 
 });
@@ -95,7 +66,42 @@ client.on("guildMemberRemove", async (member) => {
 client.on("guildUpdate", (oldGuild, newGuild) => {
     if (oldGuild.name !== newGuild.name) {
         console.log(`ห้อง: ${oldGuild.name} เปลี่ยนชื่อห้องเป็น ${newGuild.name}`);
-        channel.send(`ห้อง: ${oldGuild.name} เปลี่ยนชื่อห้องเป็น ${newGuild.name}`)
+        channel.send(`ห้อง: ${oldGuild.name} เปลี่ยนชื่อห้องเป็น ${newGuild.name}`);
+    }
+});
+
+client.on("messageUpdate", async (oldMessage, newMessage) => {
+    try {
+        const channel = await func.getLogChannel(newMessage.member.guild);
+        if (newMessage.author.bot) return;
+        const embed = new Discord.RichEmbed()
+            .setTitle(`✏️Edit Message`)
+            .setDescription(`user : #${newMessage.author.username} edited message`)
+            .setColor(0x00AE86)
+            .setTimestamp()
+            .addField("Before", oldMessage.content, true)
+            .addField("After", newMessage.content, true);
+        channel.send({ embed });
+        console.log(`user : #${newMessage.author.username} edited message old:[\"${oldMessage.content}\"], new: [\"${newMessage.content}\"]`);
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+client.on("messageDelete", async (message) => {
+    try {
+        const channel = await func.getLogChannel(message.member.guild);
+        if (message.author.bot) return;
+        const embed = new Discord.RichEmbed()
+            .setTitle(`🗑Delete Message`)
+            .setDescription(`user : ***\`#${message.author.username}\`*** deleted message`)
+            .setColor(16333113)
+            .setTimestamp()
+            .addField("Message", message.content, true)
+        channel.send({ embed });
+        console.log(`user : #${message.author.username} deleted message \"${message.content}\"`);
+    } catch (err) {
+        console.error(err);
     }
 });
 
@@ -118,7 +124,7 @@ client.on('message', async message => {
         }
         return;
     }
-    if (message.channel.id !== mainChannelIDChatbot && !multiChannel) return;
+    // if (message.channel.id !== mainChannelIDChatbot && !multiChannel) return;
 
     if (message.content.startsWith(prefix)) {
         const args = message.content.slice(prefix.length).trim().split(/ +/g)
