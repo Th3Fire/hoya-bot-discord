@@ -10,11 +10,17 @@ module.exports = {
         simsimi.listen(message.content, function (err, msg) {
             if (err) {
                 if (err.result === 509) {
-                    message.reply(`คีย์ Simsimi หมดอายุแล้ว เรียก ${author} ให้โหน่ยยยย...`);
+                    //message.reply(`คีย์ Simsimi หมดอายุแล้ว เรียก ${author} ให้โหน่ยยยย...`);
+                    console.log('คีย์ Simsimi หมดอายุแล้ว')
                 }
                 return console.log(chalk.hex('#ff0000')(`error result : ${err.result}, message: ${err.msg}`));
             }
-            message.reply(msg);
+            try {
+                message.reply(msg);
+            } catch (err) {
+                console.error(err)   
+            }
+            
             console.log(chalk.hex('#fcfc20')('simsimi say : ') + chalk.hex('#fc2065')(msg))
         });
     },
