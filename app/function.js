@@ -14,7 +14,12 @@ module.exports = {
                 }
                 return console.log(chalk.hex('#ff0000')(`error result : ${err.result}, message: ${err.msg}`));
             }
-            message.reply(msg);
+            try {
+                message.reply(msg);
+            } catch (err) {
+                console.error(err)   
+            }
+            
             console.log(chalk.hex('#fcfc20')('simsimi say : ') + chalk.hex('#fc2065')(msg))
         });
     },
