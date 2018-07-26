@@ -55,7 +55,8 @@ client.on("guildMemberRemove", async (member) => {
     try {
         const channel = await func.getDefaultChannel(member.guild)
         console.log(`"${member.user.username}" has leave from server "${member.guild.name}"`);
-        channel.send(`👋บ๊ายบาย👋 ${member} ได้ออกจากห้อง 🏠${member.guild.name}🏠`);
+        channel.send(`👋บ๊ายบาย👋 \`${member.user.username}\` ได้ออกจากห้อง 🏠${member.guild.name}🏠`)
+
     } catch (err) {
         console.error(err);
     }
