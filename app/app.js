@@ -65,11 +65,17 @@ client.on("guildMemberRemove", async (member) => {
 
 });
 
-client.on("guildUpdate", (oldGuild, newGuild) => {
-    if (oldGuild.name !== newGuild.name) {
-        console.log(`ห้อง: ${oldGuild.name} เปลี่ยนชื่อห้องเป็น ${newGuild.name}`);
-        channel.send(`ห้อง: ${oldGuild.name} เปลี่ยนชื่อห้องเป็น ${newGuild.name}`);
+client.on("guildUpdate", async (oldGuild, newGuild) => {
+    try {
+        const channel = await func.getDefaultChannel(newGuild)
+        if (oldGuild.name !== newGuild.name) {
+            console.log(`Server: ${oldGuild.name} ถูกเปลี่ยนชื่อ Server เป็น ${newGuild.name}`);
+            channel.send(`🛰Server: __\`${oldGuild.name}\`__ ถูกเปลี่ยนชื่อเป็น __\`${newGuild.name}\`__ 🛰`);
+        }
+    } catch (err) {
+        console.error(err);
     }
+    
 });
 
 client.on("messageUpdate", async (oldMessage, newMessage) => {
