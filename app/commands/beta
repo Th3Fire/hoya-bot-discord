@@ -1,0 +1,13 @@
+const constants = require('../constants')
+exports.run = async (client, message, args) => {
+    const hasPermission = message.member.hasPermission([constants.SEND_MESSAGES], false, true)
+    if (!hasPermission)
+        return message.reply("You haven't permission to use this command.")
+    try {
+        message.member.addRole('600584007608172573').then(console.log).catch(console.error);
+        return message.reply("ระบบได้ทำการเพิ่มไวริสให้คุณเรียบร้อย!")
+    } catch (err) {
+        console.log(err)
+    }
+
+}
