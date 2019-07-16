@@ -13,6 +13,7 @@ module.exports = {
     ownerBotID: process.env.OWNER_BOT_ID || "",
     activity: process.env.BOT_ACTIVITY || "",
     multiChannel: process.env.MULTI_CHANNEL || "N",
-    botChannelName: process.env.CHANNEL_NAME || "chat-bot"
+    botChannelName: process.env.CHANNEL_NAME || "chat-bot",
+    whitelistedRoleId: process.env.WHITELISTED_ROLE_ID || "",
 }
 
