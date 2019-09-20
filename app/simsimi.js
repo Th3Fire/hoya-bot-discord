@@ -8,7 +8,7 @@ const sim = (text) => {
     method: 'POST',
     url: 'https://wsapi.simsimi.com/190410/talk/',
     headers: { 
-      'x-api-key': 'YkwONF8Ehqssheq1nh9rLyupqEhWjspzC67fT3Rs',
+      'x-api-key': simsimiOption.key,
       'Content-Type': 'application/json' 
     },
     body: { 
