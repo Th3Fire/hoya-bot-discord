@@ -2,7 +2,7 @@ const constants = require('./constants')
 const { key } = require('./key/sim-key.json')
 
 module.exports = {
-    token: process.env.BOT_TOKEN || "NDcwMjk3NTQ0NDMwMTkwNjEy.XYSpxg.ajuOzp22KhnfG6WLgo8nrZsXHlU",
+    token: process.env.BOT_TOKEN || "",
     mainChannelIDChatbot: process.env.DISCORD_CHANNEL_ID || "",
     simsimiOption: {
         lang: process.env.SIM_LC || "th",
