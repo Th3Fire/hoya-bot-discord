@@ -7,7 +7,7 @@ module.exports = {
     simsimiOption: {
         lang: process.env.SIM_LC || "th",
         key: process.env.SIM_KEY || key || "",
-        filter: process.env.FT || '1.0'
+        filter: process.env.SIM_FT || '1.0'
     },
     prefix: process.env.PREFIX || "!",
     ownerBotID: process.env.OWNER_BOT_ID || "",
