@@ -121,6 +121,7 @@ client.on("userUpdate", (oldUser, newUser) => {
 });
 
 client.on('message', async message => {
+    // console.log('message:!', message)
     if (message.author.bot) return;
     //private message to bot
     if (message.channel.type === 'dm') return;
@@ -159,12 +160,9 @@ client.on('message', async message => {
         }
         return;
     }
-    
     if ((emojiStrip(message.channel.name) !== botChannelName) && (multiChannel === 'N')) return;
-
     //check user mute bot? if true not response that user.
     if (search(message.author.id, usersMuted, false)) return;
-
     // Simsimi here
     try {
         func.simsimi(message)

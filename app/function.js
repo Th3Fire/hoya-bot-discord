@@ -1,28 +1,20 @@
-const Simsimi = require('simsimi');
+// const Simsimi = require('simsimi');
 const chalk = require('chalk');
 const config = require('./config')
 const { author } = require('../package.json');
+const { simsimi } = require('./simsimi')
 const { simsimiOption } = config
-const simsimi = new Simsimi(simsimiOption);
+// const SimBot = Simsimi(simsimiOption);
 
 module.exports = {
-    simsimi: (message) => {
-        simsimi.listen(message.content, function (err, msg) {
-            if (err) {
-                if (err.result === 509) {
-                    //message.reply(`คีย์ Simsimi หมดอายุแล้ว เรียก ${author} ให้โหน่ยยยย...`);
-                    console.log('คีย์ Simsimi หมดอายุแล้ว')
-                }
-                return console.log(chalk.hex('#ff0000')(`error result : ${err.result}, message: ${err.msg}`));
-            }
-            try {
-                message.reply(msg);
-            } catch (err) {
-                console.error(err)   
-            }
-            
-            console.log(chalk.hex('#fcfc20')('simsimi say : ') + chalk.hex('#fc2065')(msg))
-        });
+    simsimi: async (message) => {
+        const { atext: response } = await simsimi(message.content)
+        try {
+            console.log(chalk.hex('#fcfc20')('simsimi say : ') + chalk.hex('#fc2065')(response))
+            return message.reply(response)
+        } catch (error) {
+            return console.log(chalk.hex('#ff0000')('error result: ', error))
+        }
     },
     getDefaultChannel: (guild) => {
         if (guild.channels.has(guild.id))

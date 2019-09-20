@@ -31,7 +31,7 @@
     "path": "^0.12.7",
     "pkginfo": "^0.4.1",
     "ramda": "^0.25.0",
-    "simsimi": "^2.0.2",
+    "request": "^2.88.0",
     "unirest": "^0.5.1"
   },
   "devDependencies": {}
