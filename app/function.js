@@ -11,7 +11,7 @@ module.exports = {
         const { atext: response } = await simsimi(message.content)
         try {
             console.log(chalk.hex('#fcfc20')('simsimi say : ') + chalk.hex('#fc2065')(response))
-            return message.reply(response)
+            return response && message.reply(response)
         } catch (error) {
             return console.log(chalk.hex('#ff0000')('error result: ', error))
         }
