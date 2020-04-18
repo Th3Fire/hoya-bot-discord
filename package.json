@@ -5,6 +5,7 @@
   "main": "./app/app.js",
   "scripts": {
     "start": "node ./app/app.js",
+    "start:local": "node -r dotenv/config ./app/app.js",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
@@ -22,10 +23,13 @@
   },
   "homepage": "https://github.com/wuttinanDEV/simsimi-discord#readme",
   "dependencies": {
+    "@google-cloud/storage": "^4.7.0",
+    "@google-cloud/translate": "^5.3.0",
     "chalk": "^2.4.1",
     "discord-rich-presence": "0.0.6",
     "discord-rpc": "^3.0.0",
-    "discord.js": "^11.3.2",
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
     "emoji-strip": "^1.0.1",
     "fs": "0.0.1-security",
     "path": "^0.12.7",

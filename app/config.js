@@ -1,19 +1,26 @@
-const constants = require('./constants')
-const { key } = require('./key/sim-key.json')
+// require('dotenv').config()
 
 module.exports = {
-    token: process.env.BOT_TOKEN || "",
-    mainChannelIDChatbot: process.env.DISCORD_CHANNEL_ID || "",
-    simsimiOption: {
-        lang: process.env.SIM_LC || "th",
-        key: process.env.SIM_KEY || key || "",
-        filter: process.env.SIM_FT || '1.0'
+    feature: {
+        ANNOUNCE_DEL_MSG: false,
+        ANNOUNCE_EDIT_MSG: false,
+        ANNOUNCE_USER_UPDATE: false,
+        ANNOUNCE_CHANNEL_UPDATE: false,
+        ANNOUNCE_USER_LEAVE: true,
+        ANNOUNCE_USER_JOIN: true,
+        ENABLE_SIMSIMI_BOT: true,
     },
+    token: process.env.BOT_TOKEN || "",
     prefix: process.env.PREFIX || "!",
-    ownerBotID: process.env.OWNER_BOT_ID || "",
     activity: process.env.BOT_ACTIVITY || "",
     multiChannel: process.env.MULTI_CHANNEL || "N",
     botChannelName: process.env.CHANNEL_NAME || "chat-bot",
-    whitelistedRoleId: process.env.WHITELISTED_ROLE_ID || "",
+    simsimiOption: {
+        SIM_COUNTRY: process.env.SIM_COUNTRY || ["TH"],
+        SIM_LC: process.env.SIM_LC || "th",
+        SIM_KEY: process.env.SIM_KEY || "",
+        SIM_BAD_PROB_MAX: process.env.SIM_BAD_PROB_MAX || '1.0',
+        SIM_BAD_PROB_MIN: process.env.SIM_BAD_PROB_MIN || '0.0'
+    },
 }
 
