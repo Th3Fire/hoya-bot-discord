@@ -1,16 +1,13 @@
 // const Simsimi = require('simsimi');
 const chalk = require('chalk');
-const config = require('./config')
-const { author } = require('../package.json');
 const { simsimi } = require('./simsimi')
-const { simsimiOption } = config
-// const SimBot = Simsimi(simsimiOption);
 
 module.exports = {
     simsimi: async (message) => {
         const { atext: response } = await simsimi(message.content)
         try {
-            console.log(chalk.hex('#fcfc20')('simsimi say : ') + chalk.hex('#fc2065')(response))
+            console.log(chalk.hex('#03a9fc')(`${message.author.username} say : `) + chalk.hex('#03a9fc')(message.content))
+            console.log(chalk.hex('#fc2065')('simsimi say : ') + chalk.hex('#fc2065')(response))
             return response && message.reply(response)
         } catch (error) {
             return console.log(chalk.hex('#ff0000')('error result: ', error))
