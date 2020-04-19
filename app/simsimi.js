@@ -15,7 +15,7 @@ const sim = (text) => {
       utext: text,
       lang: simsimiOption.SIM_LC,
       // atext_bad_prob_max: simsimiOption.SIM_BAD_PROB_MAX,
-      // atext_bad_prob_min: simsimiOption.SIM_BAD_PROB_MIN,
+      atext_bad_prob_min: simsimiOption.SIM_BAD_PROB_MIN,
     },
     json: true 
   }

@@ -48,9 +48,8 @@ const search = (key, array, remove) => {
     }
 }
 
-client.once('ready', () => {
+client.on('ready', () => {
     console.log(chalk.green('Logged in as ' + chalk.blue.underline.bold(`${client.user.tag}!`)))
-    console.log(chalk.green('Bot has started, with ' + chalk.hex('#00ff04').bold(client.users.size) + ' users, in ' + chalk.hex('#ff1ef7').bold(client.channels.size) + ' channels of ' + chalk.hex('#56d2ff').bold(client.guilds.size) + ' guilds.'))
     client.user.setActivity(activity)
 })
 
