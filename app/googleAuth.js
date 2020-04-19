@@ -41,6 +41,7 @@ const {Storage} = require('@google-cloud/storage');
 // environment.
 
 async function googleAuth() {
+  console.log(process.env.CREDS)
   const storage = new Storage({
     projectId: 'translation-261014',
     keyFilename: './google_credentials.json'
