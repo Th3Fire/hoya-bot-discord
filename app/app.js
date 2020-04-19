@@ -61,7 +61,7 @@ client.on('guildMemberAdd', async member => {
 	const channel = member.guild.channels.cache.find(ch => ch.name === 'welcome-messages')
     if (!channel) return
     
-    channel.send(`🤝สวัสดี🤝 ${member}, Server ${member.guild.name} ยินดีต้อนรับ!`)
+    channel.send(`🤝สวัสดี🤝 ${member}, Server \`${member.guild.name}\` ยินดีต้อนรับ!`)
 })
 
 client.on('guildMemberRemove', async member => {
@@ -69,7 +69,7 @@ client.on('guildMemberRemove', async member => {
 	const channel = member.guild.channels.cache.find(ch => ch.name === 'welcome-messages')
     if (!channel) return
     
-    channel.send(`👋บ๊ายบาย👋 ${member.user.username}, ได้ออกจาก Server ${member.guild.name}`)
+    channel.send(`👋บ๊ายบาย👋 \`${member.user.username}\`, ได้ออกจาก Server \`${member.guild.name}\``)
 })
 
 client.on("guildUpdate", async (oldGuild, newGuild) => {
@@ -103,23 +103,23 @@ client.on("guildUpdate", async (oldGuild, newGuild) => {
 //     }
 // })
 
-client.on("messageDelete", async (message) => {
-    if (!feature.ANNOUNCE_DEL_MSG) return
-    try {
-        const channel = await func.getLogChannel(message.member.guild)
-        if (message.author.bot) return
-        const embed = new Discord.RichEmbed()
-            .setTitle(`🗑Delete Message`)
-            .setDescription(`user : ***\`#${message.author.username}\`*** deleted message`)
-            .setColor(16333113)
-            .setTimestamp()
-            .addField("Message", message.content, true)
-        channel.send({ embed })
-        console.log(`user : #${message.author.username} deleted message \"${message.content}\"`)
-    } catch (err) {
-        console.error(err);
-    }
-});
+// client.on("messageDelete", async (message) => {
+//     if (!feature.ANNOUNCE_DEL_MSG) return
+//     try {
+//         const channel = await func.getLogChannel(message.member.guild)
+//         if (message.author.bot) return
+//         const embed = new Discord.RichEmbed()
+//             .setTitle(`🗑Delete Message`)
+//             .setDescription(`user : ***\`#${message.author.username}\`*** deleted message`)
+//             .setColor(16333113)
+//             .setTimestamp()
+//             .addField("Message", message.content, true)
+//         channel.send({ embed })
+//         console.log(`user : #${message.author.username} deleted message \"${message.content}\"`)
+//     } catch (err) {
+//         console.error(err);
+//     }
+// });
 
 client.on("userUpdate", (oldUser, newUser) => {
     if (!feature.ANNOUNCE_USER_UPDATE) return
