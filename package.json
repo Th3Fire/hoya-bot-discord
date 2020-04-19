@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./app/app.js",
     "start:local": "node -r dotenv/config ./app/app.js",
-    "postinstall": "echo $X2 | base64 --decode > google_credentials.json && cat google_credentials.json",
+    "postinstall": "node -r dotenv/config ./scripts/writeCredential.js",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
