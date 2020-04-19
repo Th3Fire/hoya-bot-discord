@@ -131,9 +131,6 @@ client.on("userUpdate", (oldUser, newUser) => {
 
 client.on('message', async message => {
     if (message.author.bot) return
-    if (message.content === '!join') {
-		return client.emit('guildMemberAdd', message.member);
-    }
     
     if (message.content.startsWith(prefix)) {
         const args = message.content.slice(prefix.length).trim().split(/ +/g)
