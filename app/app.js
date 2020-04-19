@@ -1,6 +1,5 @@
 const fs = require('fs')
 const Discord = require('discord.js')
-const Canvas = require('canvas');
 const chalk = require('chalk')
 const emojiStrip = require('emoji-strip')
 const config = require('./config')
