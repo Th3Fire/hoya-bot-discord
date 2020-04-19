@@ -2,29 +2,30 @@ const constants = require('../constants')
 
 module.exports = {
 	name: 'kick',
-	description: 'Tag a member and kick them (but not really).',
+	description: 'เตะสมาชิกออกจากเซิร์ฟเวอร์',
     guildOnly: true,
     aliases: ['เตะ'],
     usage: '[mention member]',
 	execute(message, args) {
+        // Check KICK permission
         const hasPermission = message.member.hasPermission([constants.KICK_MEMBERS])
         if (!hasPermission)
-            return message.reply("You haven't permission to use this command.")
+            return message.reply("ขออภัย คุณไม่มีสิทธิ์ใช้งานคำสั่งนี้!")
 
         let kickMember = message.mentions.members.first()
         if (!kickMember)
-            return message.reply("Please mention a user to kick")
+            return message.reply("โปรดระบุสมาชิกที่ต้องการเตะ")
         if (!kickMember.kickable) {
-            return message.reply("I cannot kick this user! Do they have a higher role? Do I have kick permissions?")
+            return message.reply("ฉันไม่สามารถเตะผู้ใช้รายนี้ได้")
         }
 
-        const kickedReason = args ? args.join(" ") : "No reason provided" 
+        const kickedReason = args ? args.join(" ") : "ไม่ระบุ" 
         kickMember.kick(kickedReason)
             .then(member => {
-                message.reply(`${member.user.username} has been kicked by ${message.author.username} because: ${kickedReason}`)
+                message.reply(`${member.user.username} ถูกเตะโดย ${message.author.username} สาเหตุ: ${kickedReason}`)
             }).catch((error) => {
                 console.error(error)
-                message.reply(`Sorry ${message.author.username} I couldn't kick because of : ${error}`)
+                message.reply(`ขออภัย ${message.author.username} ฉันไม่สามารถเตะได้เพราะ : ${error}`)
             })
 	},
 }

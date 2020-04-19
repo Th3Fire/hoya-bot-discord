@@ -4,7 +4,10 @@ const chalk = require('chalk')
 const emojiStrip = require('emoji-strip')
 const config = require('./config')
 const func = require('./function')
-const authCloudImplicit = require('./authCloudImplicit')
+const googleAuth = require('./googleAuth')
+const translation = require('./translation')
+const langCode = require('./langCode')
+const { code } = require('country-emoji');
 const {
     prefix,
     token,
@@ -15,15 +18,15 @@ const {
 } = config
 
 //Setup authentication for google translation
-authCloudImplicit()
+googleAuth().catch(console.error)
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] })
 client.commands = new Discord.Collection()
-const commandFiles = fs.readdirSync('./app/commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./app/commands').filter(file => file.endsWith('.js'))
 
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.name, command);
+	const command = require(`./commands/${file}`)
+	client.commands.set(command.name, command)
 }
 
 const cooldowns = new Discord.Collection()
@@ -158,14 +161,14 @@ client.on('message', async message => {
         if (!command) return
 
         if (command.guildOnly && message.channel.type !== 'text') {
-            return message.reply('I can\'t execute that command inside DMs!')
+            return message.reply('ฉันไม่สามารถดำเนินการคำสั่งใน DM ได้!')
         }
 
         if (command.args && !args.length) {
-            let reply = `You didn't provide any arguments, ${message.author}!`
+            let reply = `คุณไม่ได้ระบุอาร์กิวเมนต์, ${message.author}!`
     
             if (command.usage) {
-                reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``
+                reply += `\nตัวอย่างการใช้งานคำสั่ง: \`${prefix}${command.name} ${command.usage}\``
             }
     
             return message.channel.send(reply)
@@ -184,7 +187,7 @@ client.on('message', async message => {
     
             if (now < expirationTime) {
                 const timeLeft = (expirationTime - now) / 1000
-                return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`)
+                return message.reply(`โปรดรอ ${timeLeft.toFixed(1)} วินาที ก่อนใช้งานคำสั่ง \`${command.name}\` อีกครั้ง`)
             }
         }
 
@@ -195,7 +198,7 @@ client.on('message', async message => {
             command.execute(message, args)
         } catch (error) {
             console.error(error)
-            message.reply('there was an error trying to execute that command!')
+            message.reply('มีข้อผิดพลาดในการพยายามดำเนินการคำสั่ง!')
         }
         return
     }
@@ -212,7 +215,6 @@ client.on('message', async message => {
 })
 
 client.on('messageReactionAdd', async (reaction, user) => {
-    console.log('reaction: ', reaction.emoji.name)
     // When we receive a reaction we check if the reaction is partial or not
 	if (reaction.partial) {
 		// If the message this reaction belongs to was removed the fetching might result in an API error, which we need to handle
@@ -221,13 +223,44 @@ client.on('messageReactionAdd', async (reaction, user) => {
 		} catch (error) {
 			console.log('Something went wrong when fetching the message: ', error)
 			// Return as `reaction.message.author` may be undefined/null
-			return;
+			return
 		}
-	}
-	// Now the message has been cached and is fully available
+    }
+
+    // Now the message has been cached and is fully available
 	console.log(`${reaction.message.author}'s message "${reaction.message.content}" gained a reaction!`)
 	// The reaction is now also fully available and the properties will be reflected accurately:
 	console.log(`${reaction.count} user(s) have given the same reaction to this message!`)
+
+    const countryCode = code(reaction.emoji.name)
+    if (countryCode) {
+        const flags = Object.keys(langCode)
+        let country = ''
+        if(flags.includes(countryCode.toLowerCase())) {
+            country = countryCode.toLowerCase()
+        } else {
+        return
+        }
+        let lang = langCode[country]
+        if(!lang) return
+
+        const translated = await translation({ text: reaction.message.content, target: lang })
+        // return reaction.message.reply(translated)
+        // inside a command, event listener, etc.
+        const textEmbed = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('Translation - แปลภาษา')
+            .setDescription(`ข้อความถูกแปลภาษาเป็น ${reaction.emoji.name}`)
+            .setThumbnail('http://icons.iconarchive.com/icons/marcus-roberto/google-play/256/Google-Translate-icon.png')
+            .addFields(
+                { name: 'ข้อความเดิม', value: reaction.message.content },
+                { name: 'ข้อความที่ถูกแปล', value: translated },
+            )
+            .setTimestamp()
+            .setFooter('translated by Google', 'https://img.icons8.com/color/50/000000/google-logo.png')
+
+        reaction.message.reply(textEmbed)
+    }
 })
 
 client.login(token)

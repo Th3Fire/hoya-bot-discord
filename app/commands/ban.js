@@ -2,7 +2,7 @@ const constants = require('../constants')
 
 module.exports = {
 	name: 'ban',
-	description: 'Mention a member and ban them.',
+	description: 'แบนสมาชิกออกจากเซิร์ฟเวอร์',
   guildOnly: true,
   aliases: ['แบน'],
   usage: '[mention member]',
@@ -10,25 +10,25 @@ module.exports = {
     // Check BAN permission
     const hasPermission = message.member.hasPermission([constants.BAN_MEMBERS])
     if (!hasPermission) {
-      return message.reply("Sorry, you don't have permissions to use this!")
+      return message.reply("ขออภัย คุณไม่มีสิทธิ์ใช้งานคำสั่งนี้!")
     }
 
 		let banMember = message.mentions.members.first();
     if (!banMember) {
-      return message.reply("Please mention a valid member of this server")
+      return message.reply("โปรดระบุสมาชิกที่ต้องการแบน")
     }
     if (!banMember.bannable) {
-      return message.reply("I cannot ban this user! Do they have a higher role? Do I have ban permissions?")
+      return message.reply("ฉันไม่สามารถแบนผู้ใช้รายนี้ได้!")
     }
 
-    const bannedReason = args ? args.join(" ") : "No reason provided" 
+    const bannedReason = args ? args.join(" ") : "ไม่ระบุ" 
     banMember.ban(bannedReason)
       .then((member) => {
-        message.reply(`${member.user.username} has been banned by ${message.author.username} because: ${bannedReason}`)
+        message.reply(`${member.user.username} ถูกแบนโดย ${message.author.username} สาเหตุ: ${bannedReason}`)
       })
       .catch(error => {
         console.error(error)
-        message.reply(`Sorry ${message.author.username} I couldn't ban because of : ${error}`)
+        message.reply(`ขออภัย ${message.author.username} ฉันไม่สามารถแบนได้เพราะ : ${error}`)
       })
 	},
 }

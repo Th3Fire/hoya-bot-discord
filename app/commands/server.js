@@ -1,8 +1,9 @@
 module.exports = {
 	name: 'server',
 	guildOnly: true,
-	description: 'Display info about this server.',
+	description: 'แสดงข้อมูลเกี่ยวกับเซิร์ฟเวอร์นี้',
+	cooldown: 30,
 	execute(message) {
-		message.channel.send(`Server name: ${message.guild.name}\nTotal members: ${message.guild.memberCount}`)
+		message.channel.send(`🖥️ ชื่อเซิร์ฟเวอร์: ${message.guild.name}\n👥 สมาชิกทั้งหมด: ${message.guild.memberCount}`)
 	},
 }
