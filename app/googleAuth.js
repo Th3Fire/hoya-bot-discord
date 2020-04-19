@@ -1,7 +1,7 @@
 const {auth} = require('google-auth-library')
 
 // load the environment variable with our keys
-const keysEnvVar = process.env['CREDS']
+const keysEnvVar = process.env.CREDS
 if (!keysEnvVar) {
   throw new Error('The $CREDS environment variable was not found!')
 }
