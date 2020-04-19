@@ -144,7 +144,7 @@ client.on('message', async message => {
         } else if (commandName === 'mute') {
             if (search(message.author.id, usersMuted, false)) return
             usersMuted.push(message.author.id)
-            return message.reply('ชิชิชิ บังบาจ mute เค้าไปกะได้ *หากต้องการ unmute พิมพ์ !unmute')
+            return message.reply(`ชิชิชิ บังบาจ mute เค้าไปกะได้ *หากต้องการ unmute พิมพ์ ${prefix}unmute`)
         }
 
         const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
