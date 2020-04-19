@@ -1,3 +1,5 @@
+const constants = require('../constants')
+
 module.exports = {
 	name: 'purge',
 	description: 'Purge up to 99 messages.',
