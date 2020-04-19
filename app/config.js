@@ -6,7 +6,7 @@ module.exports = {
         ANNOUNCE_EDIT_MSG: false,
         ANNOUNCE_USER_UPDATE: false,
         ANNOUNCE_CHANNEL_UPDATE: false,
-        ANNOUNCE_USER_LEAVE: true,
+        ANNOUNCE_USER_LEAVE: false,
         ANNOUNCE_USER_JOIN: true,
         ENABLE_SIMSIMI_BOT: true,
     },

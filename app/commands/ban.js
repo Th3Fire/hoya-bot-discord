@@ -18,7 +18,7 @@ module.exports = {
       return message.reply("โปรดระบุสมาชิกที่ต้องการแบน")
     }
     if (!banMember.bannable) {
-      return message.reply("ฉันไม่สามารถแบนผู้ใช้รายนี้ได้!")
+      return message.reply("ไม่สามารถแบนผู้ใช้รายนี้ได้!")
     }
 
     const bannedReason = args ? args.join(" ") : "ไม่ระบุ" 
@@ -28,7 +28,7 @@ module.exports = {
       })
       .catch(error => {
         console.error(error)
-        message.reply(`ขออภัย ${message.author.username} ฉันไม่สามารถแบนได้เพราะ : ${error}`)
+        message.reply(`ขออภัย ${message.author.username} น้องบอทไม่สามารถแบนได้เนื่องจาก : ${error}`)
       })
 	},
 }

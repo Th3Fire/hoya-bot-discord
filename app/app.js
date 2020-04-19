@@ -1,5 +1,6 @@
 const fs = require('fs')
 const Discord = require('discord.js')
+const Canvas = require('canvas');
 const chalk = require('chalk')
 const emojiStrip = require('emoji-strip')
 const config = require('./config')
@@ -51,33 +52,25 @@ const search = (key, array, remove) => {
     }
 }
 
-client.on('ready', () => {
+client.once('ready', () => {
     console.log(chalk.green('Logged in as ' + chalk.blue.underline.bold(`${client.user.tag}!`)))
     client.user.setActivity(activity)
 })
 
-client.on("guildMemberAdd", async (member) => {
+client.on('guildMemberAdd', async member => {
     if (!feature.ANNOUNCE_USER_JOIN) return
-    try {
-        const channel = await func.getDefaultChannel(member.guild)
-        console.log(`New user "${member.user.username}" has joined server"${member.guild.name}"`)
-        channel.send(`🤝สวัสดี🤝 ${member} ยินดีต้อนรับสู่ห้อง 🏠${member.guild.name}🏠`)
-    } catch (err) {
-        console.error(err)
-    }
+	const channel = member.guild.channels.cache.find(ch => ch.name === 'welcome-messages')
+    if (!channel) return
+    
+    channel.send(`🤝สวัสดี🤝 ${member}, Server ${member.guild.name} ยินดีต้อนรับ!`)
 })
 
-client.on("guildMemberRemove", async (member) => {
+client.on('guildMemberRemove', async member => {
     if (!feature.ANNOUNCE_USER_LEAVE) return
-    try {
-        const channel = await func.getDefaultChannel(member.guild)
-        console.log(`"${member.user.username}" has leave from server "${member.guild.name}"`)
-        channel.send(`👋บ๊ายบาย👋 \`${member.user.username}\` ได้ออกจากห้อง 🏠${member.guild.name}🏠`)
-
-    } catch (err) {
-        console.error(err)
-    }
-
+	const channel = member.guild.channels.cache.find(ch => ch.name === 'welcome-messages')
+    if (!channel) return
+    
+    channel.send(`👋บ๊ายบาย👋 ${member.user.username}, ได้ออกจาก Server ${member.guild.name}`)
 })
 
 client.on("guildUpdate", async (oldGuild, newGuild) => {
@@ -85,33 +78,31 @@ client.on("guildUpdate", async (oldGuild, newGuild) => {
     try {
         const channel = await func.getDefaultChannel(newGuild)
         if (oldGuild.name !== newGuild.name) {
-            console.log(`Server: ${oldGuild.name} ถูกเปลี่ยนชื่อ Server เป็น ${newGuild.name}`)
-            channel.send(`🛰Server: __\`${oldGuild.name}\`__ ถูกเปลี่ยนชื่อเป็น __\`${newGuild.name}\`__ 🛰`)
+            channel.send(`Server: __\`${oldGuild.name}\`__ ถูกเปลี่ยนชื่อเป็น __\`${newGuild.name}\`__`)
         }
     } catch (err) {
         console.error(err)
     }
-    
 })
 
-client.on("messageUpdate", async (oldMessage, newMessage) => {
-    if (!feature.ANNOUNCE_EDIT_MSG) return
-    try {
-        const channel = await func.getLogChannel(newMessage.member.guild)
-        if (newMessage.author.bot) return
-        const embed = new Discord.RichEmbed()
-            .setTitle(`✏️Edit Message`)
-            .setDescription(`user : #${newMessage.author.username} edited message`)
-            .setColor(0x00AE86)
-            .setTimestamp()
-            .addField("Before", oldMessage.content, true)
-            .addField("After", newMessage.content, true)
-        channel.send({ embed })
-        console.log(`user : #${newMessage.author.username} edited message old:[\"${oldMessage.content}\"], new: [\"${newMessage.content}\"]`)
-    } catch (err) {
-        console.error(err)
-    }
-})
+// client.on("messageUpdate", async (oldMessage, newMessage) => {
+//     if (!feature.ANNOUNCE_EDIT_MSG) return
+//     try {
+//         const channel = await func.getLogChannel(newMessage.member.guild)
+//         if (newMessage.author.bot) return
+//         const embed = new Discord.RichEmbed()
+//             .setTitle(`✏️Edit Message`)
+//             .setDescription(`user : #${newMessage.author.username} edited message`)
+//             .setColor(0x00AE86)
+//             .setTimestamp()
+//             .addField("Before", oldMessage.content, true)
+//             .addField("After", newMessage.content, true)
+//         channel.send({ embed })
+//         console.log(`user : #${newMessage.author.username} edited message old:[\"${oldMessage.content}\"], new: [\"${newMessage.content}\"]`)
+//     } catch (err) {
+//         console.error(err)
+//     }
+// })
 
 client.on("messageDelete", async (message) => {
     if (!feature.ANNOUNCE_DEL_MSG) return
@@ -141,6 +132,10 @@ client.on("userUpdate", (oldUser, newUser) => {
 
 client.on('message', async message => {
     if (message.author.bot) return
+    if (message.content === '!join') {
+		return client.emit('guildMemberAdd', message.member);
+    }
+    
     if (message.content.startsWith(prefix)) {
         const args = message.content.slice(prefix.length).trim().split(/ +/g)
         const commandName = args.shift().toLowerCase()
@@ -161,7 +156,7 @@ client.on('message', async message => {
         if (!command) return
 
         if (command.guildOnly && message.channel.type !== 'text') {
-            return message.reply('ฉันไม่สามารถดำเนินการคำสั่งใน DM ได้!')
+            return message.reply('ไม่สามารถดำเนินการคำสั่งใน DM ได้!')
         }
 
         if (command.args && !args.length) {

@@ -25,7 +25,7 @@ module.exports = {
         })
         .catch(error => {
             console.error(error)
-            message.reply(`ขออภัย ${message.author.username} ฉันไม่สามารถลบสมาชิกได้เพราะ : ${error}`)
+            message.reply(`ขออภัย ${message.author.username} น้องบอทไม่สามารถลบสมาชิกได้เนื่องจาก : ${error}`)
         })
 	},
 }

@@ -16,7 +16,7 @@ module.exports = {
         if (!kickMember)
             return message.reply("โปรดระบุสมาชิกที่ต้องการเตะ")
         if (!kickMember.kickable) {
-            return message.reply("ฉันไม่สามารถเตะผู้ใช้รายนี้ได้")
+            return message.reply("น้องบอทไม่สามารถเตะผู้ใช้รายนี้ได้")
         }
 
         const kickedReason = args ? args.join(" ") : "ไม่ระบุ" 
@@ -25,7 +25,7 @@ module.exports = {
                 message.reply(`${member.user.username} ถูกเตะโดย ${message.author.username} สาเหตุ: ${kickedReason}`)
             }).catch((error) => {
                 console.error(error)
-                message.reply(`ขออภัย ${message.author.username} ฉันไม่สามารถเตะได้เพราะ : ${error}`)
+                message.reply(`ขออภัย ${message.author.username} น้องบอทไม่สามารถเตะได้เนื่องจาก : ${error}`)
             })
 	},
 }

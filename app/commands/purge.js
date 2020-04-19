@@ -21,7 +21,7 @@ module.exports = {
 
 		message.channel.bulkDelete(amount, true).catch(error => {
 			console.error(error)
-			message.reply(`ขออภัย ${message.author.username} ฉันไม่สามารถลบข้อความได้เพราะ : ${error}`)
+			message.reply(`ขออภัย ${message.author.username} น้องบอทไม่สามารถลบข้อความได้เนื่องจาก : ${error}`)
 		})
 	},
 }
