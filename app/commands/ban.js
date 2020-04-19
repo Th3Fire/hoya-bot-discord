@@ -4,6 +4,7 @@ module.exports = {
 	name: 'ban',
 	description: 'Mention a member and ban them.',
   guildOnly: true,
+  aliases: ['แบน'],
   usage: '[mention member]',
 	execute(message, args) {
     // Check BAN permission

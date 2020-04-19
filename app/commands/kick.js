@@ -4,6 +4,7 @@ module.exports = {
 	name: 'kick',
 	description: 'Tag a member and kick them (but not really).',
     guildOnly: true,
+    aliases: ['เตะ'],
     usage: '[mention member]',
 	execute(message, args) {
         const hasPermission = message.member.hasPermission([constants.KICK_MEMBERS])
