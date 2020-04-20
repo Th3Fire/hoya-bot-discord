@@ -1,4 +1,6 @@
-# simsimi-discord
+<p align="center">
+  <h1 align="center">simsimi-discord</h1>
+ </p>
 
 ## NodeJS supported
 | Version | NodeJS version     |
