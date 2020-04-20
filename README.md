@@ -53,4 +53,4 @@ Distributed under the MIT License. See LICENSE for more information.
 ## Acknowledgements
 * [Discord.js](https://discordjs.guide)
 * [Simsimi document](https://workshop.simsimi.com/document?lc=en)
-* [Google nodejs translate library](https://workshop.simsimi.com/document?lc=en)
+* [Google nodejs translate library](https://github.com/googleapis/nodejs-translate)
