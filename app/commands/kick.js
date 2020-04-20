@@ -18,8 +18,8 @@ module.exports = {
         if (!kickMember.kickable) {
             return message.reply("น้องบอทไม่สามารถเตะผู้ใช้รายนี้ได้")
         }
-
-        const kickedReason = args ? args.join(" ") : "ไม่ระบุ" 
+        const reasons = args.slice(1)
+        const kickedReason = reasons ? reasons.join(" ") : "ไม่ระบุ"
         kickMember.kick(kickedReason)
             .then(member => {
                 message.reply(`${member.user.username} ถูกเตะโดย ${message.author.username} สาเหตุ: ${kickedReason}`)

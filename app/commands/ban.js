@@ -13,7 +13,7 @@ module.exports = {
       return message.reply("ขออภัย คุณไม่มีสิทธิ์ใช้งานคำสั่งนี้!")
     }
 
-		let banMember = message.mentions.members.first();
+		let banMember = message.mentions.members.first()
     if (!banMember) {
       return message.reply("โปรดระบุสมาชิกที่ต้องการแบน")
     }
@@ -21,7 +21,8 @@ module.exports = {
       return message.reply("ไม่สามารถแบนผู้ใช้รายนี้ได้!")
     }
 
-    const bannedReason = args ? args.join(" ") : "ไม่ระบุ" 
+    const reasons = args.slice(1)
+    const bannedReason = reasons ? reasons.join(" ") : "ไม่ระบุ" 
     banMember.ban(bannedReason)
       .then((member) => {
         message.reply(`${member.user.username} ถูกแบนโดย ${message.author.username} สาเหตุ: ${bannedReason}`)
