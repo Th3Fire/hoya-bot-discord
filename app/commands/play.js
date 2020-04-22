@@ -2,7 +2,7 @@ const ytdl = require('ytdl-core-discord')
 const yts = require( 'yt-search' )
 
 async function play(connection, url) {
-    connection.play(await ytdl(url), { type: 'opus', highWaterMark: 50, volume: 0.15 });
+    connection.play(await ytdl(url), { type: 'opus', highWaterMark: 100, volume: 0.15 });
 }
 
 module.exports = {
