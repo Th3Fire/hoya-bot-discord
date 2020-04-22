@@ -15,9 +15,9 @@ module.exports = {
     cooldown: 5,
 	async execute(message, args) {
         message.channel.send(`กำลังค้นหา \`${args}\``)
-        console.info('searching... ', args)
         try {
             const searchText = args.join(' ')
+            console.info('searching... ', searchText)
             const connection = await message.member.voice.channel.join()
             const { videos } = await yts(searchText)
             const { url, title: videoTitle, image } = videos[0]
