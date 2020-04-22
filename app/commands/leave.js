@@ -1,15 +1,15 @@
 module.exports = {
 	name: 'leave',
 	guildOnly: true,
-	description: 'ออกจาก voice channel',
+    description: 'ออกจาก voice channel',
+    aliases: ['หยุด', 'stop'],
 	cooldown: 10,
 	async execute(message) {
         try {
             const connection = await message.member.voice.channel.join()
-            connection.disconnect()
+            return connection.disconnect()
         } catch (error) {
-            console.error(error)
-            return
+            return console.error(error)
         }
 	},
 }
