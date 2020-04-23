@@ -22,7 +22,7 @@ googleAuth().catch(console.error)
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] })
 client.commands = new Discord.Collection()
-const commandFiles = fs.readdirSync('./app/commands').filter(file => file.endsWith('.js'))
+const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'))
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`)

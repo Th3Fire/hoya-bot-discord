@@ -14,11 +14,11 @@ module.exports = {
 	usage: '[ชื่อเพลง]',
     cooldown: 5,
 	async execute(message, args) {
-        message.channel.send(`กำลังค้นหา \`${args}\``)
         try {
+            const connection = await message.member.voice.channel.join()
             const searchText = args.join(' ')
             console.info('searching... ', searchText)
-            const connection = await message.member.voice.channel.join()
+            message.channel.send(`กำลังค้นหา \`${args}\``)
             const { videos } = await yts(searchText)
             const { url, title: videoTitle, image } = videos[0]
 
