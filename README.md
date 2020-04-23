@@ -3,9 +3,7 @@
  </p>
 
 ## NodeJS supported
-| Version | NodeJS version     |
-| ------- | ------------------ |
-| 1.3.x   | 12.x               |
+We are supported only Nodejs version 12.x or later.
 
 ## Getting Started
 This is an example of how you may give instructions on setting up your project locally. To get a local copy up and running follow these simple example steps.
