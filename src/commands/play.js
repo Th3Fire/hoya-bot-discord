@@ -11,7 +11,8 @@ module.exports = {
     description: 'เล่นเพลงจาก Youtube',
     args: true,
     aliases: ['เล่น'],
-	usage: '[ชื่อเพลง]',
+    usage: '[ชื่อเพลง]',
+    inactive: true,
     cooldown: 5,
 	async execute(message, args) {
         try {

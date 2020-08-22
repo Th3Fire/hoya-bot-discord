@@ -1,7 +1,8 @@
 module.exports = {
 	name: 'join',
 	guildOnly: true,
-	description: 'เข้าร่วม voice channel',
+    description: 'เข้าร่วม voice channel',
+    inactive: true,
 	cooldown: 10,
 	async execute(message) {
         try {
