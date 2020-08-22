@@ -11,18 +11,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wuttinanDEV/simsimi-discord.git"
+    "url": "git+https://github.com/AlphaDel/hoya-bot-discord.git"
   },
   "keywords": [
     "bot",
     "discord"
   ],
-  "author": "Wuttinan Chaoyos [WannCry]",
+  "author": "Wuttinan Chaoyos",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wuttinanDEV/simsimi-discord/issues"
+    "url": "https://github.com/AlphaDel/hoya-bot-discord/issues"
   },
-  "homepage": "https://github.com/wuttinanDEV/simsimi-discord#readme",
+  "homepage": "https://github.com/AlphaDel/hoya-bot-discord#readme",
   "dependencies": {
     "@discordjs/opus": "^0.1.0",
     "@google-cloud/storage": "^4.7.0",
@@ -40,7 +40,6 @@
     "pkginfo": "^0.4.1",
     "ramda": "^0.25.0",
     "request": "^2.88.0",
-    "unirest": "^0.5.1",
     "yt-search": "^1.1.2",
     "ytdl-core-discord": "^1.2.0"
   },
