@@ -221,16 +221,17 @@ client.on('messageReactionAdd', async (reaction, user) => {
 var temporary = []
 
 client.on('voiceStateUpdate', (oldMember, newMember) => {
-    if (newMember.channelID === process.env.CREATE_VOICE_CHANNEL) {
+    if (newMember.channelID === process.env.CREATE_VOICE_CHANNEL_ID) {
         newMember.guild.channels.create(`${newMember.member.displayName}\'s Room`, {
             type: 'voice',
+            parent: process.env.PARENT_CATEGORY_ID,
             permissionOverwrites: [
                 {
                     id: newMember.id,
                     allow: [MANAGE_CHANNELS]
                 }
             ]
-            // parent: 'CATEGORY_ID'
+            
         })
         .then(vc => {
             temporary.push({ newID: vc.id, guild: vc.guild })
