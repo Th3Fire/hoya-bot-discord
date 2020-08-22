@@ -8,7 +8,7 @@ const googleAuth = require('./googleAuth')
 const translation = require('./translation')
 const langCode = require('./langCode')
 const { code } = require('country-emoji');
-const { MANAGE_CHANNELS } = require('./constants')
+const { MANAGE_CHANNELS, CONNECT } = require('./constants')
 const {
     prefix,
     token,
@@ -221,29 +221,34 @@ client.on('messageReactionAdd', async (reaction, user) => {
 var temporary = []
 
 client.on('voiceStateUpdate', (oldMember, newMember) => {
-    if (newMember.channelID === process.env.CREATE_VOICE_CHANNEL) {
+    if (newMember.channelID === process.env.CREATE_VOICE_CHANNEL_ID) {
         newMember.guild.channels.create(`${newMember.member.displayName}\'s Room`, {
             type: 'voice',
+            parent: newMember.channel.parentID,
             permissionOverwrites: [
                 {
                     id: newMember.id,
-                    allow: [MANAGE_CHANNELS]
+                    allow: [MANAGE_CHANNELS, CONNECT]
                 }
             ]
-            // parent: 'CATEGORY_ID'
         })
         .then(vc => {
             temporary.push({ newID: vc.id, guild: vc.guild })
             newMember.setChannel(vc)
+            console.debug(`[log]: voice channel has been created id:${vc.id}`)
         })
         .catch(error => console.error(error))
     }
     if (!newMember.channelID || oldMember.channelID !== newMember.channelID) {
         if(temporary.length >= 0) for(let i = 0; i < temporary.length; i++) {
-            const channel = temporary[i].guild.channels.cache.find(channel => channel.id === temporary[i].newID)
+            const channel = temporary[i].guild.channels.cache.find(ch => ch.id === temporary[i].newID)
             if (channel.members.size <= 0) {
                 channel.delete()
-                return temporary.splice(i, 1)
+                .then(() => {
+                    console.debug(`[log]: voice channel has been deleted id:${channel.id}`)
+                    return temporary.splice(i, 1)
+                })
+                .catch(error => console.error(error))
             }
         }
     }
