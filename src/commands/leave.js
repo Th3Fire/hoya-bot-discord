@@ -3,6 +3,7 @@ module.exports = {
 	guildOnly: true,
     description: 'ออกจาก voice channel',
     aliases: ['หยุด', 'stop'],
+    inactive: true,
 	cooldown: 10,
 	async execute(message) {
         try {

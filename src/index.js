@@ -8,6 +8,7 @@ const googleAuth = require('./googleAuth')
 const translation = require('./translation')
 const langCode = require('./langCode')
 const { code } = require('country-emoji');
+const { MANAGE_CHANNELS } = require('./constants')
 const {
     prefix,
     token,
@@ -84,43 +85,6 @@ client.on("guildUpdate", async (oldGuild, newGuild) => {
     }
 })
 
-// client.on("messageUpdate", async (oldMessage, newMessage) => {
-//     if (!feature.ANNOUNCE_EDIT_MSG) return
-//     try {
-//         const channel = await func.getLogChannel(newMessage.member.guild)
-//         if (newMessage.author.bot) return
-//         const embed = new Discord.RichEmbed()
-//             .setTitle(`✏️Edit Message`)
-//             .setDescription(`user : #${newMessage.author.username} edited message`)
-//             .setColor(0x00AE86)
-//             .setTimestamp()
-//             .addField("Before", oldMessage.content, true)
-//             .addField("After", newMessage.content, true)
-//         channel.send({ embed })
-//         console.log(`user : #${newMessage.author.username} edited message old:[\"${oldMessage.content}\"], new: [\"${newMessage.content}\"]`)
-//     } catch (err) {
-//         console.error(err)
-//     }
-// })
-
-// client.on("messageDelete", async (message) => {
-//     if (!feature.ANNOUNCE_DEL_MSG) return
-//     try {
-//         const channel = await func.getLogChannel(message.member.guild)
-//         if (message.author.bot) return
-//         const embed = new Discord.RichEmbed()
-//             .setTitle(`🗑Delete Message`)
-//             .setDescription(`user : ***\`#${message.author.username}\`*** deleted message`)
-//             .setColor(16333113)
-//             .setTimestamp()
-//             .addField("Message", message.content, true)
-//         channel.send({ embed })
-//         console.log(`user : #${message.author.username} deleted message \"${message.content}\"`)
-//     } catch (err) {
-//         console.error(err);
-//     }
-// });
-
 client.on("userUpdate", (oldUser, newUser) => {
     if (!feature.ANNOUNCE_USER_UPDATE) return
     if (oldUser.username !== newUser.username) {
@@ -149,7 +113,7 @@ client.on('message', async message => {
 
         const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
         
-        if (!command) return
+        if (!command || command.inactive) return
 
         if (command.guildOnly && message.channel.type !== 'text') {
             return message.reply('ไม่สามารถดำเนินการคำสั่งใน DM ได้!')
@@ -251,6 +215,37 @@ client.on('messageReactionAdd', async (reaction, user) => {
             .setFooter('translated by Google', 'https://img.icons8.com/color/50/000000/google-logo.png')
 
         reaction.message.reply(textEmbed)
+    }
+})
+
+var temporary = []
+
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+    if (newMember.channelID === process.env.CREATE_VOICE_CHANNEL) {
+        newMember.guild.channels.create(`${newMember.member.displayName}\'s Room`, {
+            type: 'voice',
+            permissionOverwrites: [
+                {
+                    id: newMember.id,
+                    allow: [MANAGE_CHANNELS]
+                }
+            ]
+            // parent: 'CATEGORY_ID'
+        })
+        .then(vc => {
+            temporary.push({ newID: vc.id, guild: vc.guild })
+            newMember.setChannel(vc)
+        })
+        .catch(error => console.error(error))
+    }
+    if (!newMember.channelID || oldMember.channelID !== newMember.channelID) {
+        if(temporary.length >= 0) for(let i = 0; i < temporary.length; i++) {
+            const channel = temporary[i].guild.channels.cache.find(channel => channel.id === temporary[i].newID)
+            if (channel.members.size <= 0) {
+                channel.delete()
+                return temporary.splice(i, 1)
+            }
+        }
     }
 })
 
