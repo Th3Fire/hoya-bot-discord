@@ -9,6 +9,7 @@ const translation = require('./translation')
 const langCode = require('./langCode')
 const { code } = require('country-emoji');
 const { MANAGE_CHANNELS, CONNECT } = require('./constants')
+const db = require('../models/index');
 const {
     prefix,
     token,
@@ -221,24 +222,36 @@ client.on('messageReactionAdd', async (reaction, user) => {
 var temporary = []
 
 client.on('voiceStateUpdate', (oldMember, newMember) => {
-    if (newMember.channelID === process.env.CREATE_VOICE_CHANNEL_ID) {
-        newMember.guild.channels.create(`${newMember.member.displayName}\'s Room`, {
-            type: 'voice',
-            parent: newMember.channel.parentID,
-            permissionOverwrites: [
-                {
-                    id: newMember.id,
-                    allow: [MANAGE_CHANNELS, CONNECT]
-                }
-            ]
+    // member joins a voice channel
+    if (newMember.channelID) {
+        db.VoiceChannel.findOne({
+            where: {
+                guildID: newMember.guild.id,
+                channelID: newMember.channelID,
+            }
         })
-        .then(vc => {
-            temporary.push({ newID: vc.id, guild: vc.guild })
-            newMember.setChannel(vc)
-            console.debug(`[log]: voice channel has been created id:${vc.id}`)
+        .then(data => {
+            if (data) {
+                console.log(`[log]: found `, data.dataValues)
+                newMember.guild.channels.create(`${newMember.member.displayName}\'s Room`, {
+                    type: 'voice',
+                    parent: newMember.channel.parentID,
+                    permissionOverwrites: [{
+                        id: newMember.id,
+                        allow: [MANAGE_CHANNELS, CONNECT]
+                    }]
+                })
+                .then(vc => {
+                    temporary.push({ newID: vc.id, guild: vc.guild })
+                    newMember.setChannel(vc)
+                    console.debug(`[log]: voice channel has been created id:${vc.id} by ${newMember.id}`)
+                })
+                .catch(error => console.error(error))
+            }
         })
-        .catch(error => console.error(error))
+        return
     }
+    // member leaves a voice channel
     if (!newMember.channelID || oldMember.channelID !== newMember.channelID) {
         if(temporary.length >= 0) for(let i = 0; i < temporary.length; i++) {
             const channel = temporary[i].guild.channels.cache.find(ch => ch.id === temporary[i].newID)

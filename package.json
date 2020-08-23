@@ -37,11 +37,16 @@
     "fs": "0.0.1-security",
     "google-auth-library": "^6.0.0",
     "path": "^0.12.7",
+    "pg": "^8.3.2",
+    "pg-hstore": "^2.3.3",
     "pkginfo": "^0.4.1",
     "ramda": "^0.25.0",
     "request": "^2.88.0",
+    "sequelize": "^6.3.4",
     "yt-search": "^1.1.2",
     "ytdl-core-discord": "^1.2.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "sequelize-cli": "^6.2.0"
+  }
 }
