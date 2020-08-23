@@ -268,15 +268,18 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 })
 
 client.on('channelDelete', channel => {
-    db.VoiceChannel.findOne({
-        where: {
-            guildID: channel.guild.id,
-            channelID: channel.id
-        }
-    })
-    .then(vc => {
-        if (vc) vc.destroy()
-    })
+    if (channel.type === 'voice') {
+        db.VoiceChannel.findOne({
+            where: {
+                guildID: channel.guild.id,
+                channelID: channel.id
+            }
+        })
+        .then(vc => {
+            if (vc) vc.destroy()
+        })
+    }
+    
 })
 
 client.login(token)
