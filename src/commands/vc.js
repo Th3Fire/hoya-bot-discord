@@ -11,7 +11,7 @@ module.exports = {
         // Check KICK permission
         const hasPermission = message.member.hasPermission([constants.ADMINISTRATOR])
         if (!hasPermission) return message.reply("ขออภัย คุณไม่มีสิทธิ์ใช้งานคำสั่งนี้ เฉพาะแอดมินเท่านั้น!")
-        const defaultCategory = '🔊 DEV:::: Default Category 🔊'
+        const defaultCategory = '🔊 Default Category 🔊'
         const defaultVoiceChannel = 'Join to create a channel'
         message.guild.channels.create(defaultCategory, {
             type: 'category'
