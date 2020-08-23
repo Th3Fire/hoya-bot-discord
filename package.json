@@ -8,7 +8,7 @@
     "start:local": "node -r dotenv/config ./src/index.js",
     "postinstall": "node -r dotenv/config ./scripts/writeCredential.js",
     "test": "echo \"Error: no test specified\" && exit 0",
-    "db:migration": "sequelize-cli db:migrate"
+    "db:migration": "sequelize db:migrate"
   },
   "repository": {
     "type": "git",
