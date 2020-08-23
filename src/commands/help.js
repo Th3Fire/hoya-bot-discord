@@ -1,4 +1,7 @@
-const { prefix } = require('../config')
+const {
+	prefix
+} = require('../config')
+
 module.exports = {
 	name: 'help',
 	description: 'แสดงรายการคำสั่งหรือข้อมูลทั้งหมดเกี่ยวกับคำสั่งเฉพาะ',
@@ -7,14 +10,18 @@ module.exports = {
 	cooldown: 5,
 	execute(message, args) {
 		const data = []
-		const { commands } = message.client
+		const {
+			commands
+		} = message.client
 
 		if (!args.length) {
 			data.push('📝นี่คือรายการคำสั่งทั้งหมดของบอท📝')
 			data.push(commands.map(command => command.name).join(', '))
 			data.push(`\nคุณสามารถใช้งานคำสั่ง \`${prefix}help [command name]\` เพื่อรับข้อมูลเกี่ยวกับคำสั่งเฉพาะ!`)
 
-			return message.author.send(data, { split: true })
+			return message.author.send(data, {
+					split: true
+				})
 				.then(() => {
 					if (message.channel.type === 'dm') return
 					message.reply('น้องบอทได้ส่งรายการคำสั่งทั้งหมดให้คุณทาง DM แล้ว!')
@@ -40,6 +47,8 @@ module.exports = {
 
 		data.push(`**คูลดาวน์:** ${command.cooldown || 3} วินาที`)
 
-		message.channel.send(data, { split: true })
+		message.channel.send(data, {
+			split: true
+		})
 	},
 }

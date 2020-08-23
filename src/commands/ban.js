@@ -1,19 +1,20 @@
 const constants = require('../constants')
 
 module.exports = {
-	name: 'ban',
-	description: 'แบนสมาชิกออกจากเซิร์ฟเวอร์',
+  name: 'ban',
+  description: 'แบนสมาชิกออกจากเซิร์ฟเวอร์',
   guildOnly: true,
+  args: true,
   aliases: ['แบน'],
   usage: '[mention member]',
-	execute(message, args) {
+  execute(message, args) {
     // Check BAN permission
     const hasPermission = message.member.hasPermission([constants.BAN_MEMBERS])
     if (!hasPermission) {
       return message.reply("ขออภัย คุณไม่มีสิทธิ์ใช้งานคำสั่งนี้!")
     }
 
-		let banMember = message.mentions.members.first()
+    let banMember = message.mentions.members.first()
     if (!banMember) {
       return message.reply("โปรดระบุสมาชิกที่ต้องการแบน")
     }
@@ -22,7 +23,7 @@ module.exports = {
     }
 
     const reasons = args.slice(1)
-    const bannedReason = reasons ? reasons.join(" ") : "ไม่ระบุ" 
+    const bannedReason = reasons ? reasons.join(" ") : "ไม่ระบุ"
     banMember.ban(bannedReason)
       .then((member) => {
         message.reply(`${member.user.username} ถูกแบนโดย ${message.author.username} สาเหตุ: ${bannedReason}`)
@@ -31,5 +32,5 @@ module.exports = {
         console.error(error)
         message.reply(`ขออภัย ${message.author.username} น้องบอทไม่สามารถแบนได้เนื่องจาก : ${error}`)
       })
-	},
+  },
 }

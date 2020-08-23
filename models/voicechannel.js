@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   };
   VoiceChannel.init({
     guildID: DataTypes.STRING,
-    channelID: DataTypes.STRING
+    channelID: DataTypes.STRING,
+    category: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'VoiceChannel',
