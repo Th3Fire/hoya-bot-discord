@@ -1,1 +1,1 @@
-worker: npx sequelize db:migrate:all && node src/index.js
+worker: npx sequelize-cli db:migrate:all && node src/index.js
