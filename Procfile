@@ -1,1 +1,1 @@
-worker: node src/index.js
+worker: yarn db:migration && node src/index.js
