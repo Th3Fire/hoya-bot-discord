@@ -7,7 +7,7 @@ module.exports = {
       'category',
       {
         type: Sequelize.STRING,
-        defaultValue: 'general'
+        defaultValue: 'GENERAL'
       }
     )
   },
