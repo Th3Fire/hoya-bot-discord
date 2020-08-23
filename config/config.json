@@ -7,11 +7,11 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "DATABASE_USERNAME",
-    "password": "DATABASE_PASSWORD",
+    "username": "postgres",
+    "password": "password",
     "database": "hoya_prod",
     "host": "127.0.0.1",
     "dialect": "postgres",
-    "databaseUrl": "DATABASE_URL"
+    "use_env_variable": "DATABASE_URL"
   }
 }
