@@ -249,7 +249,6 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
                 .catch(error => console.error(error))
             }
         })
-        return
     }
     // member leaves a voice channel
     if (!newMember.channelID || oldMember.channelID !== newMember.channelID) {
@@ -279,7 +278,6 @@ client.on('channelDelete', channel => {
             if (vc) vc.destroy()
         })
     }
-    
 })
 
 client.login(token)
