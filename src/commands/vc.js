@@ -11,8 +11,9 @@ module.exports = {
         // Check KICK permission
         const hasPermission = message.member.hasPermission([constants.ADMINISTRATOR])
         if (!hasPermission) return message.reply("ขออภัย คุณไม่มีสิทธิ์ใช้งานคำสั่งนี้ เฉพาะแอดมินเท่านั้น!")
-
-        message.guild.channels.create('🔊 Default Category 🔊', {
+        const defaultCategory = '🔊 Default Category 🔊'
+        const defaultVoiceChannel = 'Join to create a channel'
+        message.guild.channels.create(defaultCategory, {
             type: 'category'
         }).then((category) => {
             console.log(`[log]: category has been created id:${category.id} name: ${category.name}`)
@@ -28,6 +29,7 @@ module.exports = {
                     }
                 }).then(([vcObj, created]) => {
                     console.log(created)
+                    return message.reply(`\nน้องบอททำการสร้าง Auto Voice Channel เรียบร้อยแล้ว\nCategory: ${defaultCategory}\nVoice Channel: ${defaultVoiceChannel}`)
                 })
                 .catch(error => console.error('dbError: ', error))
             })
