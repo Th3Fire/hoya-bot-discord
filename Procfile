@@ -1,1 +1,1 @@
-worker: yarn db:migration && node src/index.js
+worker: npx sequelize db:migrate:all && node src/index.js
